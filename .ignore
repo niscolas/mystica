@@ -1,9 +1,9 @@
-/Content
-/Saved
-/Intermediate
 /.vscode
-/DerivedDataCache
-/.git
 /.direnv
 /.devenv
+/.git
+/Content
+/DerivedDataCache
+/Intermediate
+/Saved
 /.cache

@@ -7,7 +7,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "HelperMacros.h"
 #include "InputActionValue.h"
+#include "InputConfigDataAsset.h"
+#include "MysticaEnhancedInputComponent.h"
+#include "Templates/Casts.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -46,35 +50,18 @@ void ADefaultPlayer::BeginPlay() {
 
 void ADefaultPlayer::SetupPlayerInputComponent(
     UInputComponent *PlayerInputComponent) {
-    if (APlayerController *PlayerController =
-            Cast<APlayerController>(GetController())) {
-        if (UEnhancedInputLocalPlayerSubsystem *Subsystem =
-                ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
-                    PlayerController->GetLocalPlayer())) {
-            Subsystem->AddMappingContext(DefaultMappingContext, 0);
-        }
-    }
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, InputConfigDataAsset);
 
-    if (UEnhancedInputComponent *EnhancedInputComponent =
-            Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
-        EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started,
-                                           this, &ACharacter::Jump);
-        EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed,
-                                           this, &ACharacter::StopJumping);
+    APlayerController *PlayerController =
+        Cast<APlayerController>(GetController());
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, PlayerController);
 
-        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered,
-                                           this, &ADefaultPlayer::Move);
+    UEnhancedInputLocalPlayerSubsystem *Subsystem =
+        ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
+            PlayerController->GetLocalPlayer());
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, Subsystem);
 
-        EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered,
-                                           this, &ADefaultPlayer::Look);
-    } else {
-        UE_LOG(LogTemplateCharacter, Error,
-               TEXT("'%s' Failed to find an Enhanced Input component! This "
-                    "template is built to use the Enhanced Input system. If "
-                    "you intend to use the legacy system, then you will need "
-                    "to update this C++ file."),
-               *GetNameSafe(this));
-    }
+    Subsystem->AddMappingContext(InputConfigDataAsset->MappingContext, 0);
 }
 
 void ADefaultPlayer::Move(const FInputActionValue &Value) {

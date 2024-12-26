@@ -49,24 +49,6 @@ private:
               meta = (AllowPrivateAccess = "true"))
     UInputConfigDataAsset *InputConfigDataAsset;
 
-    UPROPERTY(EditAnywhere,
-              BlueprintReadOnly,
-              Category = Input,
-              meta = (AllowPrivateAccess = "true"))
-    UInputAction *JumpAction;
-
-    UPROPERTY(EditAnywhere,
-              BlueprintReadOnly,
-              Category = Input,
-              meta = (AllowPrivateAccess = "true"))
-    UInputAction *MoveAction;
-
-    UPROPERTY(EditAnywhere,
-              BlueprintReadOnly,
-              Category = Input,
-              meta = (AllowPrivateAccess = "true"))
-    UInputAction *LookAction;
-
     virtual void SetupPlayerInputComponent(
         class UInputComponent *PlayerInputComponent) override;
     virtual void BeginPlay() override;

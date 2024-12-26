@@ -35,6 +35,5 @@ public:
               meta = (TitleProperty = "Tag"))
     TArray<FInputActionConfig> ActionMapping;
 
-    class TSharedPtr<UInputAction>
-    FindActionByTag(const FGameplayTag &InTag) const;
+    UInputAction *FindActionByTag(const FGameplayTag &InTag) const;
 };

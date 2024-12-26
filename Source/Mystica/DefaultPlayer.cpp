@@ -10,6 +10,7 @@
 #include "HelperMacros.h"
 #include "InputActionValue.h"
 #include "InputConfigDataAsset.h"
+#include "Mystica/MysticaGameplayTags.h"
 #include "MysticaEnhancedInputComponent.h"
 #include "Templates/Casts.h"
 
@@ -62,6 +63,17 @@ void ADefaultPlayer::SetupPlayerInputComponent(
     MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, Subsystem);
 
     Subsystem->AddMappingContext(InputConfigDataAsset->MappingContext, 0);
+
+    UMysticaEnhancedInputComponent *MysticaEnhancedInputComponent =
+        CastChecked<UMysticaEnhancedInputComponent>(PlayerInputComponent);
+
+    MysticaEnhancedInputComponent->BindInputAction(
+        InputConfigDataAsset, MysticaGameplayTags::Input_Look,
+        ETriggerEvent::Triggered, this, &ThisClass::Look);
+
+    MysticaEnhancedInputComponent->BindInputAction(
+        InputConfigDataAsset, MysticaGameplayTags::Input_Move,
+        ETriggerEvent::Triggered, this, &ThisClass::Move);
 }
 
 void ADefaultPlayer::Move(const FInputActionValue &Value) {

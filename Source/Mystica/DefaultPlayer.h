@@ -43,7 +43,7 @@ private:
               meta = (AllowPrivateAccess = "true"))
     UCameraComponent *FollowCamera;
 
-    UPROPERTY(EditAnywhere,
+    UPROPERTY(EditDefaultsOnly,
               BlueprintReadOnly,
               Category = Input,
               meta = (AllowPrivateAccess = "true"))

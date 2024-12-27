@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AbilitySystemInterface.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
@@ -16,7 +17,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config = Game)
 
-class ADefaultPlayer : public ACharacter {
+class ADefaultPlayer : public ACharacter, public IAbilitySystemInterface {
     GENERATED_BODY()
 
 public:
@@ -49,9 +50,23 @@ private:
               meta = (AllowPrivateAccess = "true"))
     UInputConfigDataAsset *InputConfigDataAsset;
 
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess))
+    class UMysticaAbilitySystemComponent *AbilitySystemComponent;
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess))
+    class UMysticaAttributeSet *AttributeSet;
+
     virtual void SetupPlayerInputComponent(
         class UInputComponent *PlayerInputComponent) override;
     virtual void BeginPlay() override;
+    virtual void PossessedBy(AController *NewController) override;
+    virtual UAbilitySystemComponent *GetAbilitySystemComponent() const override;
 
     void Move(const FInputActionValue &Value);
     void Look(const FInputActionValue &Value);

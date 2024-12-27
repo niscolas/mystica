@@ -11,6 +11,8 @@
 #include "InputActionValue.h"
 #include "InputConfigDataAsset.h"
 #include "Mystica/MysticaGameplayTags.h"
+#include "MysticaAbilitySystemComponent.h"
+#include "MysticaAttributeSet.h"
 #include "MysticaEnhancedInputComponent.h"
 #include "Templates/Casts.h"
 
@@ -43,10 +45,28 @@ ADefaultPlayer::ADefaultPlayer() {
         CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
     FollowCamera->bUsePawnControlRotation = false;
+
+    AbilitySystemComponent =
+        CreateDefaultSubobject<UMysticaAbilitySystemComponent>(
+            TEXT("MysticaAbilitySystemComponent"));
+    AttributeSet = CreateDefaultSubobject<UMysticaAttributeSet>(
+        TEXT("MysticaAttributeSet"));
 }
 
 void ADefaultPlayer::BeginPlay() {
     Super::BeginPlay();
+}
+
+void ADefaultPlayer::PossessedBy(AController *NewController) {
+    Super::PossessedBy(NewController);
+
+    MYSTICA_RETURN_IF(!AbilitySystemComponent);
+
+    AbilitySystemComponent->InitAbilityActorInfo(this, this);
+}
+
+UAbilitySystemComponent *ADefaultPlayer::GetAbilitySystemComponent() const {
+    return AbilitySystemComponent;
 }
 
 void ADefaultPlayer::SetupPlayerInputComponent(

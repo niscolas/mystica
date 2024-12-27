@@ -12,6 +12,7 @@ public class Mystica : ModuleRules
 				"Engine",
 				"InputCore",
 				"EnhancedInput",
-				"GameplayTags"});
+				"GameplayTags",
+				"GameplayTasks"});
 	}
 }

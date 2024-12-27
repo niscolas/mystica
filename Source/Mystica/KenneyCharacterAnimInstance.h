@@ -30,4 +30,18 @@ private:
               Category = "Movement",
               meta = (AllowPrivateAccess))
     float GroundSpeed;
+
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadOnly,
+              Category = "Deep Idle",
+              meta = (AllowPrivateAccess))
+    float EnterDeepIdleThreshold = 5.0f;
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "Deep Idle",
+              meta = (AllowPrivateAccess))
+    bool ShouldEnterDeepIdle;
+
+    float IdleElapsedTime;
 };

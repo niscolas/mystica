@@ -5,7 +5,7 @@
 #include "MysticaGameplayAbility.generated.h"
 
 UENUM(BlueprintType)
-enum class EAbilityActivationPolicty : uint8 { OnTriggered, OnGiven };
+enum class EAbilityActivationPolicy : uint8 { OnTriggered, OnGiven };
 
 UCLASS()
 
@@ -17,8 +17,8 @@ private:
               BlueprintReadWrite,
               Category = "Ability System",
               meta = (AllowPrivateAccess))
-    EAbilityActivationPolicty ActivationPolicy =
-        EAbilityActivationPolicty::OnTriggered;
+    EAbilityActivationPolicy ActivationPolicy =
+        EAbilityActivationPolicy::OnTriggered;
 
     virtual void OnGiveAbility(const FGameplayAbilityActorInfo *ActorInfo,
                                const FGameplayAbilitySpec &Spec) override;

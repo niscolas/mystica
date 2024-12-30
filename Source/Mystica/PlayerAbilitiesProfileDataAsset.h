@@ -3,7 +3,7 @@
 #include "Containers/Map.h"
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "AbilitiesDataAsset.generated.h"
+#include "PlayerAbilitiesProfileDataAsset.generated.h"
 
 class UGameplayAbility;
 class UAbilitySystemComponent;
@@ -22,7 +22,7 @@ struct FGameplayAbilitiesArray {
 
 UCLASS()
 
-class MYSTICA_API UAbilitiesDataAsset : public UDataAsset {
+class MYSTICA_API UPlayerAbilitiesProfileDataAsset : public UDataAsset {
     GENERATED_BODY()
 
 public:

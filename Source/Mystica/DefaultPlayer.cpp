@@ -1,5 +1,4 @@
 #include "DefaultPlayer.h"
-#include "AbilitiesDataAsset.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Engine/LocalPlayer.h"
@@ -15,6 +14,8 @@
 #include "MysticaAbilitySystemComponent.h"
 #include "MysticaAttributeSet.h"
 #include "MysticaEnhancedInputComponent.h"
+#include "PlayerAbilitiesProfileDataAsset.h"
+#include "PlayerCombatComponent.h"
 #include "Templates/Casts.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -52,6 +53,9 @@ ADefaultPlayer::ADefaultPlayer() {
             TEXT("MysticaAbilitySystemComponent"));
     AttributeSet = CreateDefaultSubobject<UMysticaAttributeSet>(
         TEXT("MysticaAttributeSet"));
+
+    CombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(
+        TEXT("PlayerCombatComponent"));
 }
 
 void ADefaultPlayer::BeginPlay() {
@@ -64,7 +68,7 @@ void ADefaultPlayer::PossessedBy(AController *NewController) {
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
 
     MYSTICA_RETURN_IF_CANT_ENSURE_THAT(!AbilitiesDataAsset.IsNull());
-    UAbilitiesDataAsset *LoadedAbilitiesDataAsset =
+    UPlayerAbilitiesProfileDataAsset *LoadedAbilitiesDataAsset =
         AbilitiesDataAsset.LoadSynchronous();
 
     MYSTICA_RETURN_IF_CANT_ENSURE_THAT(LoadedAbilitiesDataAsset);

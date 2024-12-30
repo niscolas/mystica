@@ -55,7 +55,7 @@ private:
               BlueprintReadOnly,
               Category = "Ability System",
               meta = (AllowPrivateAccess = "true"))
-    TSoftObjectPtr<class UAbilitiesDataAsset> AbilitiesDataAsset;
+    TSoftObjectPtr<class UPlayerAbilitiesProfileDataAsset> AbilitiesDataAsset;
 
     UPROPERTY(VisibleAnywhere,
               BlueprintReadOnly,
@@ -68,6 +68,12 @@ private:
               Category = "Ability System",
               meta = (AllowPrivateAccess))
     class UMysticaAttributeSet *AttributeSet;
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "Combat",
+              meta = (AllowPrivateAccess))
+    class UPlayerCombatComponent *CombatComponent;
 
     virtual void SetupPlayerInputComponent(
         class UInputComponent *PlayerInputComponent) override;

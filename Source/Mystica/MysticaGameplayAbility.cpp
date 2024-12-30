@@ -1,6 +1,13 @@
 #include "MysticaGameplayAbility.h"
 #include "AbilitySystemComponent.h"
+#include "CombatComponent.h"
 #include "HelperMacros.h"
+
+UCombatComponent *
+UMysticaGameplayAbility::GetCombatComponentFromActorInfo() const {
+    return GetAvatarActorFromActorInfo()
+        ->FindComponentByInterface<UCombatComponent>();
+}
 
 void UMysticaGameplayAbility::OnGiveAbility(
     const FGameplayAbilityActorInfo *ActorInfo,

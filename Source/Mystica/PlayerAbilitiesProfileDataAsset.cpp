@@ -1,9 +1,9 @@
-#include "AbilitiesDataAsset.h"
+#include "PlayerAbilitiesProfileDataAsset.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayAbilitySpec.h"
 #include "HelperMacros.h"
 
-void UAbilitiesDataAsset::GiveAllTo(
+void UPlayerAbilitiesProfileDataAsset::GiveAllTo(
     UAbilitySystemComponent *TargetAbilitySystemComponent, int8 ApplyLevel) {
     MYSTICA_RETURN_IF(!TargetAbilitySystemComponent);
 
@@ -11,7 +11,7 @@ void UAbilitiesDataAsset::GiveAllTo(
            TargetAbilitySystemComponent, ApplyLevel);
 }
 
-void UAbilitiesDataAsset::GiveTo(
+void UPlayerAbilitiesProfileDataAsset::GiveTo(
     TArray<TSubclassOf<UGameplayAbility>> Abilities,
     UAbilitySystemComponent *TargetAbilitySystemComponent,
     int8 ApplyLevel) {

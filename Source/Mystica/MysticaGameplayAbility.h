@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Abilities/GameplayAbility.h"
+#include "CombatComponent.h"
 #include "CoreMinimal.h"
 #include "MysticaGameplayAbility.generated.h"
 
@@ -19,6 +20,11 @@ private:
               meta = (AllowPrivateAccess))
     EAbilityActivationPolicy ActivationPolicy =
         EAbilityActivationPolicy::OnTriggered;
+
+    UFUNCTION(BlueprintPure,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess))
+    UCombatComponent *GetCombatComponentFromActorInfo() const;
 
     virtual void OnGiveAbility(const FGameplayAbilityActorInfo *ActorInfo,
                                const FGameplayAbilitySpec &Spec) override;

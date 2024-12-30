@@ -26,10 +26,11 @@
         return ReturnValue;                                           \
     }
 
-#define MYSTICA_LOG_AND_RETURN_IF(Condition, CategoryName, Verbosity, Message) \
-    if (Condition) {                                                           \
-        UE_LOG(CategoryName, Verbosity, TEXT(Message));                        \
-        return;                                                                \
+#define MYSTICA_LOG_AND_RETURN_IF(Condition, CategoryName, Verbosity, Format, \
+                                  ...)                                        \
+    if (Condition) {                                                          \
+        UE_LOG(CategoryName, Verbosity, Format, ##__VA_ARGS__);               \
+        return;                                                               \
     }
 
 #define MYSTICA_LOG_AND_CONTINUE_IF(Condition, CategoryName, Verbosity, \

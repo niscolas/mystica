@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "UObject/SoftObjectPtr.h"
 #include "DefaultPlayer.generated.h"
 
 class USpringArmComponent;
@@ -49,6 +50,12 @@ private:
               Category = Input,
               meta = (AllowPrivateAccess = "true"))
     UInputConfigDataAsset *InputConfigDataAsset;
+
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadOnly,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess = "true"))
+    TSoftObjectPtr<class UAbilitiesDataAsset> AbilitiesDataAsset;
 
     UPROPERTY(VisibleAnywhere,
               BlueprintReadOnly,

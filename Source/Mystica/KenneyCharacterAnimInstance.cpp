@@ -26,6 +26,7 @@ void UKenneyCharacterAnimInstance::NativeThreadSafeUpdateAnimation(
 
     if (HasAcceleration) {
         IdleElapsedTime = 0.0f;
+        ShouldEnterDeepIdle = false;
     } else {
         IdleElapsedTime += DeltaSeconds;
         ShouldEnterDeepIdle = IdleElapsedTime >= EnterDeepIdleThreshold;

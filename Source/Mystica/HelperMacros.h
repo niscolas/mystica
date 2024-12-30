@@ -1,5 +1,15 @@
 #pragma once
 
+#define MYSTICA_RETURN_IF_CANT_ENSURE_THAT(Condition) \
+    if (!(ensure(Condition))) {                       \
+        return;                                       \
+    }
+
+#define MYSTICA_RETURN_IF_CANT_ENSURE_THAT_VALUE(Condition, ReturnValue) \
+    if (!(ensure(Condition))) {                                          \
+        return ReturnValue;                                              \
+    }
+
 #define MYSTICA_LOG_NULL(CategoryName, Verbosity, NullItem) \
     UE_LOG(CategoryName, Verbosity, TEXT("%s is nullptr."), TEXT(#NullItem));
 

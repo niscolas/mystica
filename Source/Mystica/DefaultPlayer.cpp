@@ -1,4 +1,5 @@
 #include "DefaultPlayer.h"
+#include "AbilitiesDataAsset.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Engine/LocalPlayer.h"
@@ -60,9 +61,14 @@ void ADefaultPlayer::BeginPlay() {
 void ADefaultPlayer::PossessedBy(AController *NewController) {
     Super::PossessedBy(NewController);
 
-    MYSTICA_RETURN_IF(!AbilitySystemComponent);
-
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+    MYSTICA_RETURN_IF_CANT_ENSURE_THAT(!AbilitiesDataAsset.IsNull());
+    UAbilitiesDataAsset *LoadedAbilitiesDataAsset =
+        AbilitiesDataAsset.LoadSynchronous();
+
+    MYSTICA_RETURN_IF_CANT_ENSURE_THAT(LoadedAbilitiesDataAsset);
+    LoadedAbilitiesDataAsset->GiveAllTo(AbilitySystemComponent);
 }
 
 UAbilitySystemComponent *ADefaultPlayer::GetAbilitySystemComponent() const {
@@ -71,16 +77,16 @@ UAbilitySystemComponent *ADefaultPlayer::GetAbilitySystemComponent() const {
 
 void ADefaultPlayer::SetupPlayerInputComponent(
     UInputComponent *PlayerInputComponent) {
-    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, InputConfigDataAsset);
+    MYSTICA_RETURN_IF_CANT_ENSURE_THAT(InputConfigDataAsset);
 
     APlayerController *PlayerController =
         Cast<APlayerController>(GetController());
-    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, PlayerController);
+    MYSTICA_RETURN_IF_CANT_ENSURE_THAT(PlayerController);
 
     UEnhancedInputLocalPlayerSubsystem *Subsystem =
         ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
             PlayerController->GetLocalPlayer());
-    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, Subsystem);
+    MYSTICA_RETURN_IF_CANT_ENSURE_THAT(Subsystem);
 
     Subsystem->AddMappingContext(InputConfigDataAsset->MappingContext, 0);
 

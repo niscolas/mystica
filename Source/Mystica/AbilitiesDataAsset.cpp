@@ -6,10 +6,13 @@
 void UAbilitiesDataAsset::GiveAllTo(
     UAbilitySystemComponent *TargetAbilitySystemComponent, int8 ApplyLevel) {
     MYSTICA_RETURN_IF(!TargetAbilitySystemComponent);
+
+    GiveTo(Content[EAbilityActivationSituation::OnGiven].Content,
+           TargetAbilitySystemComponent, ApplyLevel);
 }
 
 void UAbilitiesDataAsset::GiveTo(
-    TMap<TSubclassOf<UGameplayAbility>> Abilities,
+    TArray<TSubclassOf<UGameplayAbility>> Abilities,
     UAbilitySystemComponent *TargetAbilitySystemComponent,
     int8 ApplyLevel) {
     MYSTICA_RETURN_IF(!TargetAbilitySystemComponent || Abilities.IsEmpty());

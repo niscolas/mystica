@@ -17,4 +17,7 @@ class MYSTICA_API ICombatComponent {
 public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     void RegisterWeapon(FGameplayTag InTag, AActor *InActor, bool ShouldEquip);
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    AActor *GetWeaponByTag(FGameplayTag InTag) const;
 };

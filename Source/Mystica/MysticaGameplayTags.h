@@ -17,4 +17,10 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_UnequipWeapon);
 
 MYSTICA_API
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Sword);
+
+MYSTICA_API
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Weapon);
+
+MYSTICA_API
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Weapon);
 } // namespace MysticaGameplayTags

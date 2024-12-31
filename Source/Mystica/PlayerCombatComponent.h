@@ -22,7 +22,8 @@ public:
                                                bool ShouldEquip) override;
 
     UFUNCTION(BlueprintPure, Category = "Combat")
-    AActor *GetWeaponByTag(FGameplayTag InTag) const;
+    virtual AActor *
+    GetWeaponByTag_Implementation(FGameplayTag InTag) const override;
 
     UFUNCTION(BlueprintPure, Category = "Combat")
     AActor *GetEquippedWeapon() const;

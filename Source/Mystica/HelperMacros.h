@@ -34,16 +34,16 @@
     }
 
 #define MYSTICA_LOG_AND_CONTINUE_IF(Condition, CategoryName, Verbosity, \
-                                    Message)                            \
+                                    Format, ...)                        \
     if (Condition) {                                                    \
-        UE_LOG(CategoryName, Verbosity, TEXT(Message));                 \
+        UE_LOG(CategoryName, Verbosity, Format, ##__VA_ARGS__);         \
         continue;                                                       \
     }
 
 #define MYSTICA_LOG_AND_RETURN_VALUE_IF(Condition, CategoryName, Verbosity, \
-                                        Message, ReturnValue)               \
+                                        ReturnValue, Format, ...)           \
     if (Condition) {                                                        \
-        UE_LOG(CategoryName, Verbosity, TEXT(Message));                     \
+        UE_LOG(CategoryName, Verbosity, Format, ##__VA_ARGS__);             \
         return ReturnValue;                                                 \
     }
 

@@ -3,13 +3,14 @@
 #include "InputAction.h"
 #include "Templates/SharedPointer.h"
 
-UInputAction *
-UInputConfigDataAsset::FindActionByTag(const FGameplayTag &InTag) const {
-    for (const FInputActionConfig &ActionMappingEntry : ActionMapping) {
-        MYSTICA_CONTINUE_IF(ActionMappingEntry.Tag != InTag ||
-                            !ActionMappingEntry.Action);
+UInputAction *UInputConfigDataAsset::FindCommonInputActionByTag(
+    const FGameplayTag &InTag) const {
+    for (const FInputActionConfig &CommonInputActionConfig :
+         CommonInputActionConfigs) {
+        MYSTICA_CONTINUE_IF(CommonInputActionConfig.Tag != InTag ||
+                            !CommonInputActionConfig.Action);
 
-        return ActionMappingEntry.Action;
+        return CommonInputActionConfig.Action;
     }
 
     return nullptr;

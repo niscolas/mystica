@@ -3,6 +3,7 @@
 #include "AbilitySystemInterface.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameplayTagContainer.h"
 #include "Logging/LogMacros.h"
 #include "UObject/SoftObjectPtr.h"
 #include "DefaultPlayer.generated.h"
@@ -83,4 +84,6 @@ private:
 
     void Move(const FInputActionValue &Value);
     void Look(const FInputActionValue &Value);
+    void OnAbilityInputStarted(FGameplayTag InInputTag);
+    void OnAbilityInputCompleted(FGameplayTag InInputTag);
 };

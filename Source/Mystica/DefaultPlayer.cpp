@@ -97,13 +97,20 @@ void ADefaultPlayer::SetupPlayerInputComponent(
     UMysticaEnhancedInputComponent *MysticaEnhancedInputComponent =
         CastChecked<UMysticaEnhancedInputComponent>(PlayerInputComponent);
 
-    MysticaEnhancedInputComponent->BindInputAction(
+    MysticaEnhancedInputComponent->BindCommonInputAction(
         InputConfigDataAsset, MysticaGameplayTags::Input_Look,
         ETriggerEvent::Triggered, this, &ThisClass::Look);
 
-    MysticaEnhancedInputComponent->BindInputAction(
+    MysticaEnhancedInputComponent->BindCommonInputAction(
         InputConfigDataAsset, MysticaGameplayTags::Input_Move,
         ETriggerEvent::Triggered, this, &ThisClass::Move);
+
+    MysticaEnhancedInputComponent->BindAbilityInputAction(
+        InputConfigDataAsset, ETriggerEvent::Started, this,
+        &ThisClass::OnAbilityInputStarted);
+    MysticaEnhancedInputComponent->BindAbilityInputAction(
+        InputConfigDataAsset, ETriggerEvent::Completed, this,
+        &ThisClass::OnAbilityInputCompleted);
 }
 
 void ADefaultPlayer::Move(const FInputActionValue &Value) {
@@ -131,4 +138,12 @@ void ADefaultPlayer::Look(const FInputActionValue &Value) {
         AddControllerYawInput(LookAxisVector.X);
         AddControllerPitchInput(LookAxisVector.Y);
     }
+}
+
+void ADefaultPlayer::OnAbilityInputStarted(FGameplayTag InInputTag) {
+    AbilitySystemComponent->OnAbilityInputStarted(InInputTag);
+}
+
+void ADefaultPlayer::OnAbilityInputCompleted(FGameplayTag InInputTag) {
+    AbilitySystemComponent->OnAbilityInputCompleted(InInputTag);
 }

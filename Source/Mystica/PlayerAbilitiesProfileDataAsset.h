@@ -3,6 +3,7 @@
 #include "Containers/Map.h"
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "GameplayTagContainer.h"
 #include "PlayerAbilitiesProfileDataAsset.generated.h"
 
 class UGameplayAbility;
@@ -31,9 +32,19 @@ public:
 
 private:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess))
-    TMap<EAbilityActivationSituation, FGameplayAbilitiesArray> Content;
+    TMap<EAbilityActivationSituation, FGameplayAbilitiesArray> CommonAbilities;
 
-    void GiveTo(TArray<TSubclassOf<UGameplayAbility>> Abilities,
-                UAbilitySystemComponent *TargetAbilitySystemComponent,
-                int8 ApplyLevel = 1);
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess))
+    TMap<FGameplayTag, TSubclassOf<UGameplayAbility>> GameplayTagBasedAbilities;
+
+    void
+    GiveCommonAbilitiesTo(TArray<TSubclassOf<UGameplayAbility>> InAbilities,
+                          UAbilitySystemComponent *TargetAbilitySystemComponent,
+                          int8 ApplyLevel = 1);
+
+    void GiveGameplayTagBasedAbilitiesTo(
+        FGameplayTag InTag,
+        TSubclassOf<UGameplayAbility> InAbility,
+        UAbilitySystemComponent *TargetAbilitySystemComponent,
+        int8 ApplyLevel = 1);
 };

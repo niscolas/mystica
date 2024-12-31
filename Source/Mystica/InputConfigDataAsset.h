@@ -19,6 +19,10 @@ struct FInputActionConfig {
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     UInputAction *Action;
+
+    bool CheckIsValid() const {
+        return Tag.IsValid() && Action;
+    }
 };
 
 UCLASS()
@@ -33,7 +37,12 @@ public:
     UPROPERTY(EditDefaultsOnly,
               BlueprintReadOnly,
               meta = (TitleProperty = "Tag"))
-    TArray<FInputActionConfig> ActionMapping;
+    TArray<FInputActionConfig> CommonInputActionConfigs;
 
-    UInputAction *FindActionByTag(const FGameplayTag &InTag) const;
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadOnly,
+              meta = (TitleProperty = "Tag"))
+    TArray<FInputActionConfig> AbilityInputActionConfigs;
+
+    UInputAction *FindCommonInputActionByTag(const FGameplayTag &InTag) const;
 };

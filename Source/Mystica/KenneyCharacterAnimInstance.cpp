@@ -1,4 +1,5 @@
 #include "KenneyCharacterAnimInstance.h"
+#include "CombatComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HelperMacros.h"
@@ -10,6 +11,8 @@ void UKenneyCharacterAnimInstance::NativeInitializeAnimation() {
     MYSTICA_RETURN_IF(!OwningCharacter);
 
     CharacterMovementComponent = OwningCharacter->GetCharacterMovement();
+    CombatComponent =
+        OwningCharacter->FindComponentByInterface<UCombatComponent>();
 }
 
 void UKenneyCharacterAnimInstance::NativeThreadSafeUpdateAnimation(

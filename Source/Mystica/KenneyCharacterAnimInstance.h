@@ -2,7 +2,10 @@
 
 #include "Animation/AnimInstance.h"
 #include "CoreMinimal.h"
+#include "Mystica/CombatComponent.h"
 #include "KenneyCharacterAnimInstance.generated.h"
+
+class UCombatComponent;
 
 UCLASS()
 
@@ -18,6 +21,9 @@ private:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess))
     class UCharacterMovementComponent *CharacterMovementComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess))
+    TScriptInterface<UCombatComponent> CombatComponent;
 
     UPROPERTY(VisibleAnywhere,
               BlueprintReadOnly,

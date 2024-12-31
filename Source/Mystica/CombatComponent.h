@@ -19,5 +19,11 @@ public:
     void RegisterWeapon(FGameplayTag InTag, AActor *InActor, bool ShouldEquip);
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    void EquipWeapon(FGameplayTag InTag);
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     AActor *GetWeaponByTag(FGameplayTag InTag) const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    FGameplayTag GetEquippedWeaponTag() const;
 };

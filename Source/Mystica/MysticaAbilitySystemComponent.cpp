@@ -36,7 +36,7 @@ void UMysticaAbilitySystemComponent::RemoveWeaponAbilities(
 
     for (const FGameplayAbilitySpecHandle &SpecHandle : InSpecHandles) {
         MYSTICA_LOG_AND_CONTINUE_IF(
-            SpecHandle.IsValid(), LogTemp, Error,
+            !SpecHandle.IsValid(), LogTemp, Error,
             TEXT("Will not remove current ability, invalid input"));
         ClearAbility(SpecHandle);
     }

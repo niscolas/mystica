@@ -27,3 +27,19 @@ void UMysticaAbilitySystemComponent::GrantWeaponAbilities(
     AbilityHelper::GiveGameplayTagBasedAbilitiesTo(this, InAbilities,
                                                    ApplyLevel, OutSpecHandles);
 }
+
+void UMysticaAbilitySystemComponent::RemoveWeaponAbilities(
+    UPARAM(ref) TArray<FGameplayAbilitySpecHandle> &InSpecHandles) {
+    MYSTICA_LOG_AND_RETURN_IF(
+        InSpecHandles.IsEmpty(), LogTemp, Error,
+        TEXT("Will not remove abilities, invalid inputs"));
+
+    for (const FGameplayAbilitySpecHandle &SpecHandle : InSpecHandles) {
+        MYSTICA_LOG_AND_CONTINUE_IF(
+            SpecHandle.IsValid(), LogTemp, Error,
+            TEXT("Will not remove current ability, invalid input"));
+        ClearAbility(SpecHandle);
+    }
+
+    InSpecHandles.Empty();
+}

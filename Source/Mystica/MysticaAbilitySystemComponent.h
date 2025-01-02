@@ -5,6 +5,7 @@
 #include "GameplayTagContainer.h"
 #include "MysticaAbilitySystemComponent.generated.h"
 
+struct FGameplayAbilitySpecHandle;
 class UGameplayAbility;
 
 UCLASS()
@@ -24,4 +25,8 @@ public:
         const TMap<FGameplayTag, TSubclassOf<UGameplayAbility>> &InAbilities,
         int32 ApplyLevel,
         TArray<FGameplayAbilitySpecHandle> &OutSpecHandles);
+
+    UFUNCTION(BlueprintCallable, Category = "Ability System")
+    void RemoveWeaponAbilities(
+        UPARAM(ref) TArray<FGameplayAbilitySpecHandle> &InSpecHandles);
 };

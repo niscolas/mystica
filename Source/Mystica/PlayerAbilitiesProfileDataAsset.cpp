@@ -1,6 +1,7 @@
 #include "PlayerAbilitiesProfileDataAsset.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayAbilitySpec.h"
+#include "GameplayAbilitySpecHandle.h"
 #include "HelperMacros.h"
 #include "Mystica/AbilityHelper.h"
 

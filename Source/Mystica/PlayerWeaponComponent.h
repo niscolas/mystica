@@ -2,6 +2,7 @@
 
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
+#include "GameplayAbilitySpecHandle.h"
 #include "GameplayTagContainer.h"
 #include "PlayerWeaponComponent.generated.h"
 
@@ -15,6 +16,10 @@ class MYSTICA_API UPlayerWeaponComponent : public UActorComponent {
 
 public:
     UPlayerWeaponComponent();
+
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void AssignGrantedAbilitiesSpecHandles(
+        const TArray<FGameplayAbilitySpecHandle> &InSpecHandles);
 
 private:
     UPROPERTY(EditDefaultsOnly,
@@ -34,6 +39,12 @@ private:
               Category = "Combat",
               meta = (AllowPrivateAccess))
     TMap<FGameplayTag, TSubclassOf<UGameplayAbility>> DefaultAbilities;
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadWrite,
+              Category = "Combat",
+              meta = (AllowPrivateAccess))
+    TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 
     virtual void BeginPlay() override;
 };

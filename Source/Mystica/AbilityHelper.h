@@ -3,10 +3,12 @@
 #include "Abilities/GameplayAbility.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayAbilitySpec.h"
+#include "GameplayAbilitySpecHandle.h"
 #include "GameplayTagContainer.h"
 #include "GenericPlatform/GenericPlatformMisc.h"
 #include "HelperMacros.h"
 #include "Logging/LogVerbosity.h"
+#include "Templates/SharedPointer.h"
 #include "Templates/UnrealTemplate.h"
 
 namespace AbilityHelper {
@@ -29,12 +31,12 @@ GiveCommonAbilitiesTo(UAbilitySystemComponent *InAbilitySystemComponent,
     }
 }
 
-static bool GiveGameplayTagBasedAbilityTo(
-    UAbilitySystemComponent *InAbilitySystemComponent,
-    FGameplayTag InTag,
-    TSubclassOf<UGameplayAbility> InAbility,
-    int8 ApplyLevel = 1,
-    FGameplayAbilitySpecHandle *OutSpecHandle = nullptr) {
+static bool
+GiveGameplayTagBasedAbilityTo(UAbilitySystemComponent *InAbilitySystemComponent,
+                              FGameplayTag InTag,
+                              TSubclassOf<UGameplayAbility> InAbility,
+                              int8 ApplyLevel,
+                              FGameplayAbilitySpecHandle &OutSpecHandle) {
     MYSTICA_LOG_AND_RETURN_VALUE_IF(
         !InTag.IsValid() || !InAbility || !InAbilitySystemComponent, LogTemp,
         Error, false, TEXT("Invalid inputs, will not give ability"))
@@ -44,7 +46,7 @@ static bool GiveGameplayTagBasedAbilityTo(
     Spec.Level = ApplyLevel;
     Spec.DynamicAbilityTags.AddTag(InTag);
 
-    *OutSpecHandle = InAbilitySystemComponent->GiveAbility(Spec);
+    OutSpecHandle = InAbilitySystemComponent->GiveAbility(Spec);
     return true;
 }
 
@@ -55,12 +57,12 @@ static void GiveGameplayTagBasedAbilitiesTo(
     TArray<FGameplayAbilitySpecHandle> &OutSpecHandles) {
     for (TTuple<FGameplayTag, TSubclassOf<UGameplayAbility>> AbilityKvp :
          InAbilities) {
-        FGameplayAbilitySpecHandle *OutSpecHandle = nullptr;
+        FGameplayAbilitySpecHandle OutSpecHandle;
         GiveGameplayTagBasedAbilityTo(InAbilitySystemComponent, AbilityKvp.Key,
                                       AbilityKvp.Value, ApplyLevel,
                                       OutSpecHandle);
 
-        OutSpecHandles.AddUnique(*OutSpecHandle);
+        OutSpecHandles.AddUnique(OutSpecHandle);
     }
 }
 } // namespace AbilityHelper

@@ -1,12 +1,27 @@
 #include "MysticaGameplayAbility.h"
 #include "AbilitySystemComponent.h"
 #include "CombatComponent.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerController.h"
 #include "HelperMacros.h"
+#include "MysticaAbilitySystemComponent.h"
+
+APlayerController *
+UMysticaGameplayAbility::GetPlayerControllerFromActorInfo() const {
+    APawn *OwningPawn = Cast<APawn>(GetAvatarActorFromActorInfo());
+    return Cast<APlayerController>(OwningPawn->GetController());
+}
 
 UCombatComponent *
 UMysticaGameplayAbility::GetCombatComponentFromActorInfo() const {
     return GetAvatarActorFromActorInfo()
         ->FindComponentByInterface<UCombatComponent>();
+}
+
+UMysticaAbilitySystemComponent *
+UMysticaGameplayAbility::GetPlayerAbilitySystemComponentFromActorInfo() const {
+    return GetAvatarActorFromActorInfo()
+        ->FindComponentByClass<UMysticaAbilitySystemComponent>();
 }
 
 void UMysticaGameplayAbility::OnGiveAbility(

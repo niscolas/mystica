@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "MysticaGameplayAbility.generated.h"
 
+class APlayerController;
+class UMysticaAbilitySystemComponent;
+
 UENUM(BlueprintType)
 enum class EAbilityActivationPolicy : uint8 { OnTriggered, OnGiven };
 
@@ -24,7 +27,18 @@ private:
     UFUNCTION(BlueprintPure,
               Category = "Ability System",
               meta = (AllowPrivateAccess))
+    APlayerController *GetPlayerControllerFromActorInfo() const;
+
+    UFUNCTION(BlueprintPure,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess))
     UCombatComponent *GetCombatComponentFromActorInfo() const;
+
+    UFUNCTION(BlueprintPure,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess))
+    UMysticaAbilitySystemComponent *
+    GetPlayerAbilitySystemComponentFromActorInfo() const;
 
     virtual void OnGiveAbility(const FGameplayAbilityActorInfo *ActorInfo,
                                const FGameplayAbilitySpec &Spec) override;

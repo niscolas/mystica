@@ -1,6 +1,7 @@
 #include "MysticaAbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "HelperMacros.h"
+#include "Mystica/AbilityHelper.h"
 
 void UMysticaAbilitySystemComponent::OnAbilityInputStarted(
     const FGameplayTag &InInputTag) {
@@ -17,4 +18,12 @@ void UMysticaAbilitySystemComponent::OnAbilityInputStarted(
 
 void UMysticaAbilitySystemComponent::OnAbilityInputCompleted(
     const FGameplayTag &InInputTag) {
+}
+
+void UMysticaAbilitySystemComponent::GrantWeaponAbilities(
+    const TMap<FGameplayTag, TSubclassOf<UGameplayAbility>> &InAbilities,
+    int32 ApplyLevel,
+    TArray<FGameplayAbilitySpecHandle> &OutSpecHandles) {
+    AbilityHelper::GiveGameplayTagBasedAbilitiesTo(this, InAbilities,
+                                                   ApplyLevel, OutSpecHandles);
 }

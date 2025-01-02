@@ -27,7 +27,7 @@ class MYSTICA_API UPlayerAbilitiesProfileDataAsset : public UDataAsset {
     GENERATED_BODY()
 
 public:
-    void GiveAllTo(UAbilitySystemComponent *TargetAbilitySystemComponent,
+    void GiveAllTo(UAbilitySystemComponent *InAbilitySystemComponent,
                    int8 ApplyLevel = 1);
 
 private:
@@ -36,15 +36,4 @@ private:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess))
     TMap<FGameplayTag, TSubclassOf<UGameplayAbility>> GameplayTagBasedAbilities;
-
-    void
-    GiveCommonAbilitiesTo(TArray<TSubclassOf<UGameplayAbility>> InAbilities,
-                          UAbilitySystemComponent *TargetAbilitySystemComponent,
-                          int8 ApplyLevel = 1);
-
-    void GiveGameplayTagBasedAbilitiesTo(
-        FGameplayTag InTag,
-        TSubclassOf<UGameplayAbility> InAbility,
-        UAbilitySystemComponent *TargetAbilitySystemComponent,
-        int8 ApplyLevel = 1);
 };

@@ -68,7 +68,7 @@ private:
               BlueprintReadOnly,
               Category = "Ability System",
               meta = (AllowPrivateAccess))
-    class UMysticaAttributeSet *AttributeSet;
+    class UPlayerAttributeSet *AttributeSet;
 
     UPROPERTY(VisibleAnywhere,
               BlueprintReadOnly,

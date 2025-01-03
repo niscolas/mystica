@@ -12,7 +12,7 @@
 #include "InputConfigDataAsset.h"
 #include "Mystica/MysticaGameplayTags.h"
 #include "MysticaAbilitySystemComponent.h"
-#include "MysticaAttributeSet.h"
+#include "PlayerAttributeSet.h"
 #include "MysticaEnhancedInputComponent.h"
 #include "PlayerAbilitiesProfileDataAsset.h"
 #include "PlayerCombatComponent.h"
@@ -51,8 +51,8 @@ ADefaultPlayer::ADefaultPlayer() {
     AbilitySystemComponent =
         CreateDefaultSubobject<UMysticaAbilitySystemComponent>(
             TEXT("MysticaAbilitySystemComponent"));
-    AttributeSet = CreateDefaultSubobject<UMysticaAttributeSet>(
-        TEXT("MysticaAttributeSet"));
+    AttributeSet = CreateDefaultSubobject<UPlayerAttributeSet>(
+        TEXT("PlayerAttributeSet"));
 
     CombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(
         TEXT("PlayerCombatComponent"));

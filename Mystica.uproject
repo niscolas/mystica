@@ -40,6 +40,10 @@
 		{
 			"Name": "EditorUIScaleCustomization",
 			"Enabled": true
+		},
+		{
+			"Name": "AdvancedRenamer",
+			"Enabled": true
 		}
 	]
 }

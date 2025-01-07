@@ -26,4 +26,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     FGameplayTag GetEquippedWeaponTag() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    AActor *GetEquippedWeapon() const;
 };

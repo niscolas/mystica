@@ -5,6 +5,7 @@
 #include "Containers/Map.h"
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
+#include "Mystica/DefaultWeaponInventory.h"
 #include "PlayerCombatComponent.generated.h"
 
 class UPlayerWeaponComponent;
@@ -35,26 +36,13 @@ public:
     GetPlayerWeaponComponentByTag(FGameplayTag InTag) const;
 
     UFUNCTION(BlueprintPure, Category = "Combat")
-    AActor *GetEquippedWeapon() const;
+    AActor *GetEquippedWeapon_Implementation() const override;
 
     UFUNCTION(BlueprintPure, Category = "Combat")
-
-    virtual FGameplayTag GetEquippedWeaponTag_Implementation() const override {
-        return EquippedWeaponTag;
-    }
+    virtual FGameplayTag GetEquippedWeaponTag_Implementation() const override;
 
 private:
-    UPROPERTY(VisibleAnywhere,
-              BlueprintReadWrite,
-              Category = "Combat",
-              meta = (AllowPrivateAccess))
-    FGameplayTag EquippedWeaponTag;
-
-    UPROPERTY(VisibleAnywhere,
-              BlueprintReadOnly,
-              Category = "Combat",
-              meta = (AllowPrivateAccess))
-    TMap<FGameplayTag, AActor *> WeaponsMap;
+    UDefaultWeaponInventory WeaponInventory;
 
     virtual void BeginPlay() override;
 };

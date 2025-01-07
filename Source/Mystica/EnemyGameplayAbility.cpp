@@ -1,5 +1,14 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "EnemyGameplayAbility.h"
+#include "EnemyCombatComponent.h"
+#include "UObject/WeakObjectPtrTemplates.h"
 
+UEnemyCombatComponent *
+UEnemyGameplayAbility::GetCombatComponentFromActorInfo() const {
+    if (!CachedCombatComponent.IsValid()) {
+        GetAvatarActorFromActorInfo()
+            ->FindComponentByClass<UEnemyCombatComponent>();
+    }
+
+    return CachedCombatComponent.IsValid() ? CachedCombatComponent.Get()
+                                           : nullptr;
+}

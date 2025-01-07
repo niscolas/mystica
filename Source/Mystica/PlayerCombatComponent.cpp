@@ -1,5 +1,6 @@
 #include "PlayerCombatComponent.h"
 #include "HelperMacros.h"
+#include "Mystica/DefaultWeaponInventory.h"
 #include "PlayerWeaponComponent.h"
 
 UPlayerCombatComponent::UPlayerCombatComponent() {
@@ -13,26 +14,16 @@ void UPlayerCombatComponent::BeginPlay() {
 void UPlayerCombatComponent::RegisterWeapon_Implementation(FGameplayTag InTag,
                                                            AActor *InActor,
                                                            bool ShouldEquip) {
-    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, InActor);
-    MYSTICA_LOG_AND_RETURN_IF(WeaponsMap.Contains(InTag), LogTemp, Error,
-                              TEXT("Not registering Weapon twice"));
-
-    WeaponsMap.Emplace(InTag, InActor);
-    if (ShouldEquip) {
-        EquippedWeaponTag = InTag;
-    }
+    WeaponInventory.RegisterWeapon(InTag, InActor, ShouldEquip);
 }
 
 void UPlayerCombatComponent::EquipWeapon_Implementation(FGameplayTag InTag) {
-    EquippedWeaponTag = InTag;
+    WeaponInventory.EquipWeapon(InTag);
 }
 
 AActor *UPlayerCombatComponent::GetWeaponByTag_Implementation(
     FGameplayTag InTag) const {
-    AActor *const *FoundWeapon = WeaponsMap.Find(InTag);
-    MYSTICA_IF_NULL_LOG_AND_RETURN_VALUE(LogTemp, Error, FoundWeapon, nullptr);
-
-    return *FoundWeapon;
+    return WeaponInventory.GetWeaponByTag(InTag);
 }
 
 UPlayerWeaponComponent *UPlayerCombatComponent::GetPlayerWeaponComponentByTag(
@@ -43,8 +34,11 @@ UPlayerWeaponComponent *UPlayerCombatComponent::GetPlayerWeaponComponentByTag(
     return FoundWeapon->GetComponentByClass<UPlayerWeaponComponent>();
 }
 
-AActor *UPlayerCombatComponent::GetEquippedWeapon() const {
-    MYSTICA_RETURN_VALUE_IF(!EquippedWeaponTag.IsValid(), nullptr);
+AActor *UPlayerCombatComponent::GetEquippedWeapon_Implementation() const {
+    return WeaponInventory.GetEquippedWeapon();
+}
 
-    return GetWeaponByTag_Implementation(EquippedWeaponTag);
+FGameplayTag
+UPlayerCombatComponent::GetEquippedWeaponTag_Implementation() const {
+    return WeaponInventory.GetEquippedWeaponTag();
 }

@@ -4,6 +4,8 @@
 #include "GameFramework/Character.h"
 #include "DefaultEnemy.generated.h"
 
+class UEnemyCombatComponent;
+
 UCLASS()
 
 class MYSTICA_API ADefaultEnemy : public ACharacter {
@@ -12,6 +14,12 @@ class MYSTICA_API ADefaultEnemy : public ACharacter {
 public:
     ADefaultEnemy();
 
-protected:
+private:
     virtual void BeginPlay() override;
-}
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "Combat",
+              meta = (AllowPrivateAccess))
+    UEnemyCombatComponent *CombatComponent;
+};

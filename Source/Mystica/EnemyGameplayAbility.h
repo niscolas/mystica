@@ -1,17 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "CoreMinimal.h"
+#include "UObject/WeakObjectPtrTemplates.h"
 #include "EnemyGameplayAbility.generated.h"
 
-/**
- * 
- */
+class UEnemyCombatComponent;
+
 UCLASS()
-class MYSTICA_API UEnemyGameplayAbility : public UGameplayAbility
-{
-	GENERATED_BODY()
-	
+
+class MYSTICA_API UEnemyGameplayAbility : public UGameplayAbility {
+    GENERATED_BODY()
+
+public:
+    UFUNCTION(BlueprintPure, Category = "Ability System")
+    UEnemyCombatComponent *GetCombatComponentFromActorInfo() const;
+
+    TWeakObjectPtr<UEnemyCombatComponent> CachedCombatComponent;
 };

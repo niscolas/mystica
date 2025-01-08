@@ -98,3 +98,29 @@ bool UMysticaAbilitySystemFunctionLibrary::BranchOnDoesActorHaveTag(
 
     return AbilitySystemComponent->HasMatchingGameplayTag(InTag);
 }
+
+bool UMysticaAbilitySystemFunctionLibrary::
+    CheckDoesHaveGivenActivatableAbilityClass(
+        UAbilitySystemComponent *InAbilitySystemComponent,
+        TSubclassOf<UGameplayAbility> InAbilityClass) {
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !InAbilitySystemComponent, LogTemp, Error, false,
+        TEXT("Will not check if Ability System Component has given ability, "
+             "invalid inputs"));
+
+    for (const FGameplayAbilitySpec &Spec :
+         InAbilitySystemComponent->GetActivatableAbilities()) {
+        MYSTICA_CONTINUE_IF(Spec.Ability->GetClass() != InAbilityClass);
+        return true;
+    }
+
+    return false;
+}
+
+bool UMysticaAbilitySystemFunctionLibrary::
+    BranchOnDoesHaveGivenActivatableAbilityClass(
+        UAbilitySystemComponent *InAbilitySystemComponent,
+        TSubclassOf<UGameplayAbility> InAbilityClass) {
+    return CheckDoesHaveGivenActivatableAbilityClass(InAbilitySystemComponent,
+                                                     InAbilityClass);
+}

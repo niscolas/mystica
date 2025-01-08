@@ -8,6 +8,7 @@
 #include "HelperMacros.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Logging/LogVerbosity.h"
+#include "Templates/SubclassOf.h"
 #include "Templates/UnrealTemplate.h"
 #include "MysticaAbilitySystemFunctionLibrary.generated.h"
 
@@ -29,6 +30,18 @@ public:
               Category = "Ability System|Function Library",
               meta = (ExpandBoolAsExecs = "ReturnValue"))
     static bool BranchOnDoesActorHaveTag(AActor *InActor, FGameplayTag InTag);
+
+    UFUNCTION(BlueprintCallable, Category = "Ability System|Function Library")
+    static bool CheckDoesHaveGivenActivatableAbilityClass(
+        UAbilitySystemComponent *InAbilitySystemComponent,
+        TSubclassOf<UGameplayAbility> InAbilityClass);
+
+    UFUNCTION(BlueprintCallable,
+              Category = "Ability System|Function Library",
+              meta = (ExpandBoolAsExecs = "ReturnValue"))
+    static bool BranchOnDoesHaveGivenActivatableAbilityClass(
+        UAbilitySystemComponent *InAbilitySystemComponent,
+        TSubclassOf<UGameplayAbility> InAbilityClass);
 
     static void
     GiveCommonAbilitiesTo(UAbilitySystemComponent *InAbilitySystemComponent,

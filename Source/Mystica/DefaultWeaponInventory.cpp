@@ -18,11 +18,11 @@ void FDefaultWeaponInventory::RegisterWeapon(FGameplayTag InTag,
 
 bool FDefaultWeaponInventory::EquipWeapon(FGameplayTag InTag) {
     MYSTICA_LOG_AND_RETURN_VALUE_IF(
-        !EquippedWeaponTag.IsValid(), LogTemp, Warning, false,
+        !InTag.IsValid(), LogTemp, Warning, false,
         TEXT("Will not equip weapon, invalid inputs"));
 
     MYSTICA_LOG_AND_RETURN_VALUE_IF(
-        CheckHasWeapon(InTag), LogTemp, Warning, false,
+        !CheckHasWeapon(InTag), LogTemp, Warning, false,
         TEXT("Will not equip weapon that's not registered"));
 
     EquippedWeaponTag = InTag;

@@ -3,7 +3,7 @@
 #include "HelperMacros.h"
 #include "Logging/LogVerbosity.h"
 
-void UDefaultWeaponInventory::RegisterWeapon(FGameplayTag InTag,
+void FDefaultWeaponInventory::RegisterWeapon(FGameplayTag InTag,
                                              AActor *InActor,
                                              bool ShouldEquip) {
     MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, InActor);
@@ -16,23 +16,23 @@ void UDefaultWeaponInventory::RegisterWeapon(FGameplayTag InTag,
     }
 }
 
-void UDefaultWeaponInventory::EquipWeapon(FGameplayTag InTag) {
+void FDefaultWeaponInventory::EquipWeapon(FGameplayTag InTag) {
     EquippedWeaponTag = InTag;
 }
 
-AActor *UDefaultWeaponInventory::GetWeaponByTag(FGameplayTag InTag) const {
+AActor *FDefaultWeaponInventory::GetWeaponByTag(FGameplayTag InTag) const {
     AActor *const *FoundWeapon = WeaponsMap.Find(InTag);
     MYSTICA_IF_NULL_LOG_AND_RETURN_VALUE(LogTemp, Error, FoundWeapon, nullptr);
 
     return *FoundWeapon;
 }
 
-AActor *UDefaultWeaponInventory::GetEquippedWeapon() const {
+AActor *FDefaultWeaponInventory::GetEquippedWeapon() const {
     MYSTICA_RETURN_VALUE_IF(!EquippedWeaponTag.IsValid(), nullptr);
 
     return GetWeaponByTag(EquippedWeaponTag);
 }
 
-FGameplayTag UDefaultWeaponInventory::GetEquippedWeaponTag() const {
+FGameplayTag FDefaultWeaponInventory::GetEquippedWeaponTag() const {
     return EquippedWeaponTag;
 }

@@ -34,7 +34,7 @@ public:
     virtual FGameplayTag GetEquippedWeaponTag_Implementation() const override;
 
 private:
-    UDefaultWeaponInventory WeaponInventory;
+    FDefaultWeaponInventory WeaponInventory;
 
     virtual void BeginPlay() override;
 };

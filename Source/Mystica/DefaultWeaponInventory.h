@@ -2,7 +2,7 @@
 
 #include "GameplayTagContainer.h"
 
-class MYSTICA_API UDefaultWeaponInventory {
+class MYSTICA_API FDefaultWeaponInventory {
 public:
     void RegisterWeapon(FGameplayTag InTag, AActor *InActor, bool ShouldEquip);
     void EquipWeapon(FGameplayTag InTag);

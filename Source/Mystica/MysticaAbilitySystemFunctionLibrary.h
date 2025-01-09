@@ -20,24 +20,27 @@ class UMysticaAbilitySystemFunctionLibrary : public UBlueprintFunctionLibrary {
     GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable, Category = "Ability System|Function Library")
+    UFUNCTION(BlueprintCallable,
+              Category = "Ability System|Mystica Function Library")
     static void AddGameplayTagToActor(AActor *InActor, FGameplayTag InTag);
 
-    UFUNCTION(BlueprintCallable, Category = "Ability System|Function Library")
+    UFUNCTION(BlueprintCallable,
+              Category = "Ability System|Mystica Function Library")
     static void RemoveGameplayTagFromActor(AActor *InActor, FGameplayTag InTag);
 
     UFUNCTION(BlueprintCallable,
-              Category = "Ability System|Function Library",
+              Category = "Ability System|Mystica Function Library",
               meta = (ExpandBoolAsExecs = "ReturnValue"))
     static bool BranchOnDoesActorHaveTag(AActor *InActor, FGameplayTag InTag);
 
-    UFUNCTION(BlueprintCallable, Category = "Ability System|Function Library")
+    UFUNCTION(BlueprintCallable,
+              Category = "Ability System|Mystica Function Library")
     static bool CheckDoesHaveGivenActivatableAbilityClass(
         UAbilitySystemComponent *InAbilitySystemComponent,
         TSubclassOf<UGameplayAbility> InAbilityClass);
 
     UFUNCTION(BlueprintCallable,
-              Category = "Ability System|Function Library",
+              Category = "Ability System|Mystica Function Library",
               meta = (ExpandBoolAsExecs = "ReturnValue"))
     static bool BranchOnDoesHaveGivenActivatableAbilityClass(
         UAbilitySystemComponent *InAbilitySystemComponent,

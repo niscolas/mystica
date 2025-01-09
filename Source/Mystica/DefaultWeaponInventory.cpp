@@ -6,23 +6,33 @@
 void FDefaultWeaponInventory::RegisterWeapon(FGameplayTag InTag,
                                              AActor *InActor,
                                              bool ShouldEquip) {
-    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Error, InActor);
-    MYSTICA_LOG_AND_RETURN_IF(WeaponsMap.Contains(InTag), LogTemp, Error,
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, InActor);
+    MYSTICA_LOG_AND_RETURN_IF(WeaponsMap.Contains(InTag), LogTemp, Warning,
                               TEXT("Not registering Weapon twice"));
 
     WeaponsMap.Emplace(InTag, InActor);
     if (ShouldEquip) {
-        EquippedWeaponTag = InTag;
+        EquipWeapon(InTag);
     }
 }
 
-void FDefaultWeaponInventory::EquipWeapon(FGameplayTag InTag) {
+bool FDefaultWeaponInventory::EquipWeapon(FGameplayTag InTag) {
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !EquippedWeaponTag.IsValid(), LogTemp, Warning, false,
+        TEXT("Will not equip weapon, invalid inputs"));
+
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        CheckHasWeapon(InTag), LogTemp, Warning, false,
+        TEXT("Will not equip weapon that's not registered"));
+
     EquippedWeaponTag = InTag;
+    return true;
 }
 
 AActor *FDefaultWeaponInventory::GetWeaponByTag(FGameplayTag InTag) const {
     AActor *const *FoundWeapon = WeaponsMap.Find(InTag);
-    MYSTICA_IF_NULL_LOG_AND_RETURN_VALUE(LogTemp, Error, FoundWeapon, nullptr);
+    MYSTICA_IF_NULL_LOG_AND_RETURN_VALUE(LogTemp, Warning, FoundWeapon,
+                                         nullptr);
 
     return *FoundWeapon;
 }
@@ -35,4 +45,8 @@ AActor *FDefaultWeaponInventory::GetEquippedWeapon() const {
 
 FGameplayTag FDefaultWeaponInventory::GetEquippedWeaponTag() const {
     return EquippedWeaponTag;
+}
+
+bool FDefaultWeaponInventory::CheckHasWeapon(FGameplayTag InTag) const {
+    return GetWeaponByTag(InTag) != nullptr;
 }

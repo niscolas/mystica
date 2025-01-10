@@ -2,23 +2,15 @@
 
 #include "Animation/AnimInstance.h"
 #include "CoreMinimal.h"
-#include "Mystica/CombatComponent.h"
-#include "KenneyCharacterAnimInstance.generated.h"
+#include "DefaultEnemyAnimInstance.generated.h"
 
 class UCharacterMovementComponent;
 class UCombatComponent;
 
 UCLASS()
 
-class MYSTICA_API UKenneyCharacterAnimInstance : public UAnimInstance {
+class MYSTICA_API UDefaultEnemyAnimInstance : public UAnimInstance {
     GENERATED_BODY()
-
-public:
-    static float ComputeGroundSpeed(
-        UCharacterMovementComponent *InCharacterMovementComponent);
-
-    static bool CheckHasAcceleration(
-        UCharacterMovementComponent *InCharacterMovementComponent);
 
 private:
     virtual void NativeInitializeAnimation() override;
@@ -44,18 +36,4 @@ private:
               Category = "Movement",
               meta = (AllowPrivateAccess))
     float GroundSpeed;
-
-    UPROPERTY(EditDefaultsOnly,
-              BlueprintReadOnly,
-              Category = "Deep Idle",
-              meta = (AllowPrivateAccess))
-    float EnterDeepIdleThreshold = 5.0f;
-
-    UPROPERTY(VisibleAnywhere,
-              BlueprintReadOnly,
-              Category = "Deep Idle",
-              meta = (AllowPrivateAccess))
-    bool ShouldEnterDeepIdle;
-
-    float IdleElapsedTime;
 };

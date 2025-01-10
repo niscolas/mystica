@@ -14,6 +14,8 @@ private:
 TUniquePtr<FDefaultWeaponInventory> DefaultWeaponInventoryFixture;
 const FGameplayTag WeaponTagFixture = Weapon_TestWeapon;
 
+AActor *GetRegisteredWeaponWithTagHelper(FGameplayTag InTag) const;
+
 END_DEFINE_SPEC(FDefaultWeaponInventorySpec)
 
 void FDefaultWeaponInventorySpec::Define() {
@@ -28,9 +30,8 @@ void FDefaultWeaponInventorySpec::Define() {
         });
 
         It("Should register weapons properly", [this]() {
-            AActor *WeaponActor = NewObject<AActor>();
-            DefaultWeaponInventoryFixture->RegisterWeapon(WeaponTagFixture,
-                                                          WeaponActor, false);
+            AActor *WeaponActor =
+                GetRegisteredWeaponWithTagHelper(WeaponTagFixture);
 
             TestTrue("GetWeaponByTag(WeaponTag) == WeaponActor",
                      DefaultWeaponInventoryFixture->GetWeaponByTag(
@@ -47,9 +48,8 @@ void FDefaultWeaponInventorySpec::Define() {
         });
 
         It("Should be able to equip registered weapons", [this]() {
-            AActor *WeaponActor = NewObject<AActor>();
-            DefaultWeaponInventoryFixture->RegisterWeapon(WeaponTagFixture,
-                                                          WeaponActor, false);
+            AActor *WeaponActor =
+                GetRegisteredWeaponWithTagHelper(WeaponTagFixture);
 
             TestTrue(
                 "EquipWeapon() return value",
@@ -87,10 +87,6 @@ void FDefaultWeaponInventorySpec::Define() {
         It("CheckHasWeapon.Should have Weapon when providing a registered "
            "Weapon Tag",
            [this]() {
-               AActor *WeaponActor = NewObject<AActor>();
-               DefaultWeaponInventoryFixture->RegisterWeapon(
-                   WeaponTagFixture, WeaponActor, false);
-
                TestTrue("CheckHasWeapon(Registered Tag))",
                         DefaultWeaponInventoryFixture->CheckHasWeapon(
                             WeaponTagFixture));
@@ -112,4 +108,12 @@ void FDefaultWeaponInventorySpec::Define() {
                              MysticaGameplayTags::Player_Weapon_Sword));
            });
     });
+}
+
+AActor *FDefaultWeaponInventorySpec::GetRegisteredWeaponWithTagHelper(
+    FGameplayTag InTag) const {
+    AActor *WeaponActor = NewObject<AActor>();
+    DefaultWeaponInventoryFixture->RegisterWeapon(InTag, WeaponActor, false);
+
+    return WeaponActor;
 }

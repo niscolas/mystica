@@ -13,4 +13,12 @@ class MYSTICA_API UPlayerAttributeSet : public UAttributeSet {
 
 public:
     UPlayerAttributeSet();
+
+    UPROPERTY(BlueprintReadOnly, Category = "Combat|Combo")
+    FGameplayAttributeData LightComboCount;
+    ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, LightComboCount)
+
+    UPROPERTY(BlueprintReadOnly, Category = "Combat|Combo")
+    FGameplayAttributeData HeavyComboCount;
+    ATTRIBUTE_ACCESSORS(UPlayerAttributeSet, HeavyComboCount)
 };

@@ -22,10 +22,8 @@ void UKenneyCharacterAnimInstance::NativeThreadSafeUpdateAnimation(
     MYSTICA_RETURN_IF(!OwningCharacter);
     MYSTICA_RETURN_IF(!CharacterMovementComponent);
 
-    GroundSpeed = CharacterMovementComponent->Velocity.Size2D();
-    HasAcceleration =
-        CharacterMovementComponent->GetCurrentAcceleration().SizeSquared2D() >
-        0;
+    GroundSpeed = ComputeGroundSpeed(CharacterMovementComponent);
+    HasAcceleration = CheckHasAcceleration(CharacterMovementComponent);
 
     if (HasAcceleration) {
         IdleElapsedTime = 0.0f;
@@ -34,4 +32,15 @@ void UKenneyCharacterAnimInstance::NativeThreadSafeUpdateAnimation(
         IdleElapsedTime += DeltaSeconds;
         ShouldEnterDeepIdle = IdleElapsedTime >= EnterDeepIdleThreshold;
     }
+}
+
+float UKenneyCharacterAnimInstance::ComputeGroundSpeed(
+    UCharacterMovementComponent *InCharacterMovementComponent) {
+    return InCharacterMovementComponent->Velocity.Size2D();
+}
+
+bool UKenneyCharacterAnimInstance::CheckHasAcceleration(
+    UCharacterMovementComponent *InCharacterMovementComponent) {
+    return InCharacterMovementComponent->GetCurrentAcceleration()
+               .SizeSquared2D() > 0;
 }

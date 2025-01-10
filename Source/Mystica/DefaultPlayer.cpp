@@ -63,11 +63,6 @@ void ADefaultPlayer::BeginPlay() {
 }
 
 void ADefaultPlayer::PossessedBy(AController *NewController) {
-    MYSTICA_LOG_AND_RETURN_IF(
-        Controller == NewController, LogTemp, Warning,
-        TEXT("Will not run PossessedBy twice on the same controller (%s)"),
-        *NewController->GetName());
-
     Super::PossessedBy(NewController);
 
     AbilitySystemComponent->InitAbilityActorInfo(this, this);

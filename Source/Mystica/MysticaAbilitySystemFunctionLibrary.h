@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Abilities/GameplayAbility.h"
 #include "GameplayAbilitySpec.h"
 #include "GameplayAbilitySpecHandle.h"
 #include "GameplayTagContainer.h"
 #include "GenericPlatform/GenericPlatformMisc.h"
 #include "HelperMacros.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "Logging/LogVerbosity.h"
 #include "Templates/SubclassOf.h"
 #include "Templates/UnrealTemplate.h"
 #include "MysticaAbilitySystemFunctionLibrary.generated.h"
 
+class UGameplayAbility;
+class UGameplayEffect;
 class UAbilitySystemComponent;
 
 UCLASS()
@@ -66,4 +66,9 @@ public:
 
     static UAbilitySystemComponent *
     NativeGetAbilitySystemComponentFromActor(AActor *InActor);
+
+    static void ApplyEffectsToAbilitySystemComponent(
+        UAbilitySystemComponent *InAbilitySystemComponent,
+        TArray<TSubclassOf<UGameplayEffect>> InEffects,
+        int32 ApplyLevel);
 };

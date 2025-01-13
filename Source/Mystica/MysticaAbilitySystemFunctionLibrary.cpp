@@ -1,6 +1,7 @@
 #include "MysticaAbilitySystemFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "GameplayEffect.h"
 #include "HelperMacros.h"
 
 void UMysticaAbilitySystemFunctionLibrary::GiveCommonAbilitiesTo(
@@ -123,4 +124,22 @@ bool UMysticaAbilitySystemFunctionLibrary::
         TSubclassOf<UGameplayAbility> InAbilityClass) {
     return CheckDoesHaveGivenActivatableAbilityClass(InAbilitySystemComponent,
                                                      InAbilityClass);
+}
+
+void UMysticaAbilitySystemFunctionLibrary::ApplyEffectsToAbilitySystemComponent(
+    UAbilitySystemComponent *InAbilitySystemComponent,
+    TArray<TSubclassOf<UGameplayEffect>> InEffects,
+    int32 ApplyLevel) {
+    MYSTICA_LOG_AND_RETURN_IF(!InAbilitySystemComponent || InEffects.IsEmpty(),
+                              LogTemp, Error,
+                              TEXT("Will not apply Effects, invalid inputs"));
+
+    for (TSubclassOf<UGameplayEffect> EffectClass : InEffects) {
+        MYSTICA_CONTINUE_IF(!EffectClass);
+
+        UGameplayEffect *Effect =
+            EffectClass->GetDefaultObject<UGameplayEffect>();
+        InAbilitySystemComponent->ApplyGameplayEffectToSelf(
+            Effect, ApplyLevel, InAbilitySystemComponent->MakeEffectContext());
+    }
 }

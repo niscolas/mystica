@@ -7,7 +7,7 @@
 #include "UObject/SoftObjectPtr.h"
 #include "DefaultEnemy.generated.h"
 
-class UEnemyAttributeSet;
+class UMysticaAttributeSet;
 class UEnemyAbilitiesProfileDataAsset;
 class UEnemyCombatComponent;
 class UMysticaAbilitySystemComponent;
@@ -41,7 +41,7 @@ private:
               BlueprintReadOnly,
               Category = "Ability System",
               meta = (AllowPrivateAccess))
-    UEnemyAttributeSet *AttributeSet;
+    UMysticaAttributeSet *AttributeSet;
 
     UPROPERTY(VisibleAnywhere,
               BlueprintReadOnly,

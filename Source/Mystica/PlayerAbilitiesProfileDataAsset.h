@@ -4,22 +4,12 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
+#include "MiscTypes.h"
 #include "PlayerAbilitiesProfileDataAsset.generated.h"
 
+class UGameplayEffect;
 class UGameplayAbility;
 class UAbilitySystemComponent;
-
-UENUM(BlueprintType)
-enum class EAbilityActivationSituation : uint8 { OnGiven };
-
-USTRUCT(BlueprintType)
-
-struct FGameplayAbilitiesArray {
-    GENERATED_BODY()
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess))
-    TArray<TSubclassOf<UGameplayAbility>> Content;
-};
 
 UCLASS()
 
@@ -31,6 +21,9 @@ public:
                    int8 ApplyLevel = 1);
 
 private:
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess))
+    TArray<TSubclassOf<UGameplayEffect>> StartUpEffects;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess))
     TMap<EAbilityActivationSituation, FGameplayAbilitiesArray> CommonAbilities;
 

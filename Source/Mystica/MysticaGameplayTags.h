@@ -45,4 +45,7 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Sword);
 MYSTICA_API
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Effect_HeavyAttackFinisherReady_Sword);
 
+MYSTICA_API
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
+
 } // namespace MysticaGameplayTags

@@ -26,4 +26,7 @@ UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_Sword,
 
 UE_DEFINE_GAMEPLAY_TAG(Player_Effect_HeavyAttackFinisherReady_Sword,
                        "Player.Effect.HeavyAttackFinisherReady.Sword");
+
+UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon, "Enemy.Weapon");
+
 } // namespace MysticaGameplayTags

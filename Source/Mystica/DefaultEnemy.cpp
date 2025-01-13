@@ -1,12 +1,12 @@
 #include "DefaultEnemy.h"
 #include "EnemyAbilitiesProfileDataAsset.h"
-#include "EnemyAttributeSet.h"
 #include "EnemyCombatComponent.h"
 #include "Engine/AssetManager.h"
 #include "Engine/StreamableManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HelperMacros.h"
 #include "Mystica/MysticaAbilitySystemComponent.h"
+#include "MysticaAttributeSet.h"
 
 ADefaultEnemy::ADefaultEnemy() {
     PrimaryActorTick.bCanEverTick = false;
@@ -27,7 +27,7 @@ ADefaultEnemy::ADefaultEnemy() {
         CreateDefaultSubobject<UMysticaAbilitySystemComponent>(
             TEXT("MysticaAbilitySystemComponent"));
     AttributeSet =
-        CreateDefaultSubobject<UEnemyAttributeSet>(TEXT("EnemyAttributeSet"));
+        CreateDefaultSubobject<UMysticaAttributeSet>(TEXT("EnemyAttributeSet"));
 
     CombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>(
         TEXT("EnemyCombatComponent"));

@@ -134,12 +134,18 @@ void UMysticaAbilitySystemFunctionLibrary::ApplyEffectsToAbilitySystemComponent(
                               LogTemp, Error,
                               TEXT("Will not apply Effects, invalid inputs"));
 
-    for (TSubclassOf<UGameplayEffect> EffectClass : InEffects) {
+    UE_LOG(LogTemp, Warning, TEXT("DefaultEnemy PossessedBy %s"),
+           *InAbilitySystemComponent->GetOwner()->GetName());
+    for (const TSubclassOf<UGameplayEffect> &EffectClass : InEffects) {
+        UE_LOG(LogTemp, Warning, TEXT("DefaultEnemy PossessedBy 1"));
         MYSTICA_CONTINUE_IF(!EffectClass);
 
+        UE_LOG(LogTemp, Warning, TEXT("DefaultEnemy PossessedBy 2"));
         UGameplayEffect *Effect =
             EffectClass->GetDefaultObject<UGameplayEffect>();
-        InAbilitySystemComponent->ApplyGameplayEffectToSelf(
+        auto EffectHandle = InAbilitySystemComponent->ApplyGameplayEffectToSelf(
             Effect, ApplyLevel, InAbilitySystemComponent->MakeEffectContext());
+        UE_LOG(LogTemp, Warning, TEXT("DefaultEnemy PossessedBy 3 %d"),
+               EffectHandle.WasSuccessfullyApplied() ? 1 : 0);
     }
 }

@@ -43,6 +43,7 @@ void ADefaultEnemy::PossessedBy(AController *NewController) {
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
 
     MYSTICA_RETURN_IF_CANT_ENSURE_THAT(!AbilitiesDataAsset.IsNull());
+
     UAssetManager::GetStreamableManager().RequestAsyncLoad(
         AbilitiesDataAsset.ToSoftObjectPath(),
         FStreamableDelegate::CreateLambda([this]() {

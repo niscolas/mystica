@@ -10,6 +10,7 @@
 #include "HelperMacros.h"
 #include "InputActionValue.h"
 #include "InputConfigDataAsset.h"
+#include "Mystica/CombatComponent.h"
 #include "Mystica/MysticaGameplayTags.h"
 #include "MysticaAbilitySystemComponent.h"
 #include "MysticaAttributeSet.h"
@@ -59,7 +60,7 @@ ADefaultPlayer::ADefaultPlayer() {
 }
 
 UCombatComponent *ADefaultPlayer::GetCombatComponent() const {
-    return Cast<UCombatComponent>(CombatComponent);
+    return FindComponentByInterface<UCombatComponent>();
 }
 
 void ADefaultPlayer::BeginPlay() {

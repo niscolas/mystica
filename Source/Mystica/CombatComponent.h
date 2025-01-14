@@ -29,4 +29,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     AActor *GetEquippedWeapon() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    void SetWeaponCollisionState(bool SetActive);
 };

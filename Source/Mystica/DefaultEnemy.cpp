@@ -34,7 +34,7 @@ ADefaultEnemy::ADefaultEnemy() {
 }
 
 UCombatComponent *ADefaultEnemy::GetCombatComponent() const {
-    return Cast<UCombatComponent>(CombatComponent);
+    return FindComponentByInterface<UCombatComponent>();
 }
 
 void ADefaultEnemy::BeginPlay() {

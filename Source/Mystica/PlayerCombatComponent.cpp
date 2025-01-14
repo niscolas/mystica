@@ -1,4 +1,5 @@
 #include "PlayerCombatComponent.h"
+#include "Components/ShapeComponent.h"
 #include "HelperMacros.h"
 #include "Mystica/DefaultWeaponInventory.h"
 #include "PlayerWeaponComponent.h"
@@ -41,4 +42,18 @@ AActor *UPlayerCombatComponent::GetEquippedWeapon_Implementation() const {
 FGameplayTag
 UPlayerCombatComponent::GetEquippedWeaponTag_Implementation() const {
     return WeaponInventory.GetEquippedWeaponTag();
+}
+
+void UPlayerCombatComponent::SetWeaponCollisionState_Implementation(
+    bool SetActive) {
+    UPlayerWeaponComponent *FoundWeapon =
+        GetPlayerWeaponComponentByTag(GetEquippedWeaponTag_Implementation());
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, FoundWeapon);
+
+    UShapeComponent *CollisionComponent = FoundWeapon->GetCollisionComponent();
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, CollisionComponent);
+
+    CollisionComponent->SetCollisionEnabled(
+        SetActive ? ECollisionEnabled::QueryOnly
+                  : ECollisionEnabled::NoCollision);
 }

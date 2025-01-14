@@ -33,6 +33,10 @@ ADefaultEnemy::ADefaultEnemy() {
         TEXT("EnemyCombatComponent"));
 }
 
+UCombatComponent *ADefaultEnemy::GetCombatComponent() const {
+    return Cast<UCombatComponent>(CombatComponent);
+}
+
 void ADefaultEnemy::BeginPlay() {
     Super::BeginPlay();
 }

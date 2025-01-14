@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Mystica/CombatPawn.h"
 #include "UObject/SoftObjectPtr.h"
 #include "DefaultEnemy.generated.h"
 
@@ -14,11 +15,15 @@ class UMysticaAbilitySystemComponent;
 
 UCLASS()
 
-class ADefaultEnemy : public ACharacter, public IAbilitySystemInterface {
+class ADefaultEnemy : public ACharacter,
+                      public IAbilitySystemInterface,
+                      public ICombatPawn {
     GENERATED_BODY()
 
 public:
     ADefaultEnemy();
+
+    virtual UCombatComponent *GetCombatComponent() const override;
 
 private:
     virtual void BeginPlay() override;

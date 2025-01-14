@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "GameplayTagContainer.h"
 #include "Logging/LogMacros.h"
+#include "Mystica/CombatPawn.h"
 #include "UObject/SoftObjectPtr.h"
 #include "DefaultPlayer.generated.h"
 
@@ -19,7 +20,9 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config = Game)
 
-class ADefaultPlayer : public ACharacter, public IAbilitySystemInterface {
+class ADefaultPlayer : public ACharacter,
+                       public IAbilitySystemInterface,
+                       public ICombatPawn {
     GENERATED_BODY()
 
 public:
@@ -32,6 +35,8 @@ public:
     FORCEINLINE class UCameraComponent *GetFollowCamera() const {
         return FollowCamera;
     }
+
+    virtual UCombatComponent *GetCombatComponent() const override;
 
 private:
     UPROPERTY(VisibleAnywhere,

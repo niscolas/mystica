@@ -58,6 +58,10 @@ ADefaultPlayer::ADefaultPlayer() {
         TEXT("PlayerCombatComponent"));
 }
 
+UCombatComponent *ADefaultPlayer::GetCombatComponent() const {
+    return Cast<UCombatComponent>(CombatComponent);
+}
+
 void ADefaultPlayer::BeginPlay() {
     Super::BeginPlay();
 }

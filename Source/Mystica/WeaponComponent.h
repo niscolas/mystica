@@ -22,6 +22,6 @@ public:
     AActor *GetActor() const;
 
     virtual UShapeComponent *GetCollisionComponent() const = 0;
-    virtual const FHitTarget &GetBeginHitOtherPawnDelegate() const = 0;
-    virtual const FHitTarget &GetEndHitOtherPawnDelegate() const = 0;
+    virtual FHitTarget &GetBeginHitOtherPawnDelegate() = 0;
+    virtual FHitTarget &GetEndHitOtherPawnDelegate() = 0;
 };

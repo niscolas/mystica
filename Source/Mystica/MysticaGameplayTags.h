@@ -48,4 +48,7 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Effect_HeavyAttackFinisherReady_Sword);
 MYSTICA_API
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 
+MYSTICA_API
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+
 } // namespace MysticaGameplayTags

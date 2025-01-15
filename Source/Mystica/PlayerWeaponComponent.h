@@ -29,8 +29,8 @@ public:
 
     virtual UShapeComponent *GetCollisionComponent() const override;
 
-    virtual const FHitTarget &GetBeginHitOtherPawnDelegate() const override;
-    virtual const FHitTarget &GetEndHitOtherPawnDelegate() const override;
+    virtual FHitTarget &GetBeginHitOtherPawnDelegate() override;
+    virtual FHitTarget &GetEndHitOtherPawnDelegate() override;
 
 private:
     UPROPERTY(EditDefaultsOnly,

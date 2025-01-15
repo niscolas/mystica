@@ -51,6 +51,10 @@ public:
 
 private:
     FDefaultWeaponInventory WeaponInventory;
+    TArray<APawn *> PawnsOverlappedByHit;
 
     virtual void BeginPlay() override;
+
+    void OnBeginHitOtherPawn(APawn *OtherPawn);
+    void OnEndHitOtherPawn(APawn *OtherPawn);
 };

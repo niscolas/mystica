@@ -1,7 +1,12 @@
 #include "PlayerCombatComponent.h"
+#include "Abilities/GameplayAbilityTypes.h"
+#include "AbilitySystemBlueprintLibrary.h"
 #include "Components/ShapeComponent.h"
+#include "Engine/EngineTypes.h"
 #include "HelperMacros.h"
+#include "Mystica/DefaultPlayer.h"
 #include "Mystica/DefaultWeaponInventory.h"
+#include "Mystica/MysticaGameplayTags.h"
 #include "PlayerWeaponComponent.h"
 #include "WeaponComponent.h"
 
@@ -18,6 +23,11 @@ void UPlayerCombatComponent::RegisterWeapon_Implementation(
     const TScriptInterface<IWeaponComponent> &InWeaponComponent,
     bool ShouldEquip) {
     WeaponInventory.RegisterWeapon(InTag, InWeaponComponent, ShouldEquip);
+
+    InWeaponComponent->GetBeginHitOtherPawnDelegate().AddUObject(
+        this, &ThisClass::OnBeginHitOtherPawn);
+    InWeaponComponent->GetEndHitOtherPawnDelegate().AddUObject(
+        this, &ThisClass::OnEndHitOtherPawn);
 }
 
 void UPlayerCombatComponent::EquipWeapon_Implementation(FGameplayTag InTag) {
@@ -58,7 +68,35 @@ void UPlayerCombatComponent::SetWeaponCollisionState_Implementation(
     UShapeComponent *CollisionComponent = FoundWeapon->GetCollisionComponent();
     MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, CollisionComponent);
 
-    CollisionComponent->SetCollisionEnabled(
-        SetActive ? ECollisionEnabled::QueryOnly
-                  : ECollisionEnabled::NoCollision);
+    ECollisionEnabled::Type NewCollisionEnabledType;
+    if (SetActive) {
+        NewCollisionEnabledType = ECollisionEnabled::QueryOnly;
+    } else {
+        NewCollisionEnabledType = ECollisionEnabled::NoCollision;
+    }
+
+    CollisionComponent->SetCollisionEnabled(NewCollisionEnabledType);
+    PawnsOverlappedByHit.Empty();
+}
+
+void UPlayerCombatComponent::OnBeginHitOtherPawn(APawn *OtherPawn) {
+    MYSTICA_RETURN_IF(PawnsOverlappedByHit.Contains(OtherPawn));
+
+    UE_LOG(LogTemp, Warning, TEXT("OnBeginHitOtherPawn: %s %s"),
+           *GetOwner()->GetActorNameOrLabel(), *OtherPawn->GetName());
+
+    PawnsOverlappedByHit.AddUnique(OtherPawn);
+
+    FGameplayEventData GameplayEventData;
+    GameplayEventData.Instigator = GetOwner();
+    GameplayEventData.Target = OtherPawn;
+
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+        GetOwner(), MysticaGameplayTags::Shared_Event_MeleeHit,
+        GameplayEventData);
+}
+
+void UPlayerCombatComponent::OnEndHitOtherPawn(APawn *OtherPawn) {
+    UE_LOG(LogTemp, Warning, TEXT("OnEndHitOtherPawn: %s"),
+           *OtherPawn->GetName());
 }

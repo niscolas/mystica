@@ -26,11 +26,11 @@ UShapeComponent *UPlayerWeaponComponent::GetCollisionComponent() const {
     return CollisionComponent;
 }
 
-const FHitTarget &UPlayerWeaponComponent::GetBeginHitOtherPawnDelegate() const {
+FHitTarget &UPlayerWeaponComponent::GetBeginHitOtherPawnDelegate() {
     return BeginHitOtherPawn;
 }
 
-const FHitTarget &UPlayerWeaponComponent::GetEndHitOtherPawnDelegate() const {
+FHitTarget &UPlayerWeaponComponent::GetEndHitOtherPawnDelegate() {
     return EndHitOtherPawn;
 }
 

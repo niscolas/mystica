@@ -1,4 +1,4 @@
-#include "MysticaGameplayAbility.h"
+#include "PlayerGameplayAbility.h"
 #include "AbilitySystemComponent.h"
 #include "CombatComponent.h"
 #include "GameFramework/Pawn.h"
@@ -7,24 +7,24 @@
 #include "MysticaAbilitySystemComponent.h"
 
 APlayerController *
-UMysticaGameplayAbility::GetPlayerControllerFromActorInfo() const {
+UPlayerGameplayAbility::GetPlayerControllerFromActorInfo() const {
     APawn *OwningPawn = Cast<APawn>(GetAvatarActorFromActorInfo());
     return Cast<APlayerController>(OwningPawn->GetController());
 }
 
 UCombatComponent *
-UMysticaGameplayAbility::GetCombatComponentFromActorInfo() const {
+UPlayerGameplayAbility::GetCombatComponentFromActorInfo() const {
     return GetAvatarActorFromActorInfo()
         ->FindComponentByInterface<UCombatComponent>();
 }
 
 UMysticaAbilitySystemComponent *
-UMysticaGameplayAbility::GetPlayerAbilitySystemComponentFromActorInfo() const {
+UPlayerGameplayAbility::GetPlayerAbilitySystemComponentFromActorInfo() const {
     return GetAvatarActorFromActorInfo()
         ->FindComponentByClass<UMysticaAbilitySystemComponent>();
 }
 
-void UMysticaGameplayAbility::OnGiveAbility(
+void UPlayerGameplayAbility::OnGiveAbility(
     const FGameplayAbilityActorInfo *ActorInfo,
     const FGameplayAbilitySpec &Spec) {
     Super::OnGiveAbility(ActorInfo, Spec);
@@ -35,7 +35,7 @@ void UMysticaGameplayAbility::OnGiveAbility(
     ActorInfo->AbilitySystemComponent->TryActivateAbility(Spec.Handle);
 }
 
-void UMysticaGameplayAbility::EndAbility(
+void UPlayerGameplayAbility::EndAbility(
     const FGameplayAbilitySpecHandle Handle,
     const FGameplayAbilityActorInfo *ActorInfo,
     const FGameplayAbilityActivationInfo ActivationInfo,

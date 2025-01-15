@@ -3,7 +3,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "CombatComponent.h"
 #include "CoreMinimal.h"
-#include "MysticaGameplayAbility.generated.h"
+#include "PlayerGameplayAbility.generated.h"
 
 class APlayerController;
 class UMysticaAbilitySystemComponent;
@@ -13,7 +13,7 @@ enum class EAbilityActivationPolicy : uint8 { OnTriggered, OnGiven };
 
 UCLASS()
 
-class MYSTICA_API UMysticaGameplayAbility : public UGameplayAbility {
+class MYSTICA_API UPlayerGameplayAbility : public UGameplayAbility {
     GENERATED_BODY()
 
 private:

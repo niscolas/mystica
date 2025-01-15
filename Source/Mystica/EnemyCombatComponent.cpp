@@ -8,22 +8,24 @@ void UEnemyCombatComponent::BeginPlay() {
     Super::BeginPlay();
 }
 
-void UEnemyCombatComponent::RegisterWeapon_Implementation(FGameplayTag InTag,
-                                                          AActor *InActor,
-                                                          bool ShouldEquip) {
-    WeaponInventory.RegisterWeapon(InTag, InActor, ShouldEquip);
+void UEnemyCombatComponent::RegisterWeapon_Implementation(
+    FGameplayTag InTag,
+    const TScriptInterface<IWeaponComponent> &InWeaponComponent,
+    bool ShouldEquip) {
+    WeaponInventory.RegisterWeapon(InTag, InWeaponComponent, ShouldEquip);
 }
 
 void UEnemyCombatComponent::EquipWeapon_Implementation(FGameplayTag InTag) {
     WeaponInventory.EquipWeapon(InTag);
 }
 
-AActor *
+TScriptInterface<IWeaponComponent>
 UEnemyCombatComponent::GetWeaponByTag_Implementation(FGameplayTag InTag) const {
     return WeaponInventory.GetWeaponByTag(InTag);
 }
 
-AActor *UEnemyCombatComponent::GetEquippedWeapon_Implementation() const {
+TScriptInterface<IWeaponComponent>
+UEnemyCombatComponent::GetEquippedWeapon_Implementation() const {
     return WeaponInventory.GetEquippedWeapon();
 }
 

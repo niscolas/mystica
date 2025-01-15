@@ -1,6 +1,7 @@
 #include "Mystica/DefaultWeaponInventory.h"
 #include "GameplayTagsManager.h"
 #include "Mystica/MysticaGameplayTags.h"
+#include "Mystica/WeaponComponent.h"
 #include "Templates/SharedPointer.h"
 
 UE_DEFINE_GAMEPLAY_TAG_STATIC(Weapon_TestWeapon, "Weapon.TestWeapon");
@@ -14,7 +15,7 @@ private:
 TUniquePtr<FDefaultWeaponInventory> DefaultWeaponInventoryFixture;
 const FGameplayTag WeaponTagFixture = Weapon_TestWeapon;
 
-AActor *GetRegisteredWeaponWithTagHelper(FGameplayTag InTag) const;
+UWeaponComponent *GetRegisteredWeaponWithTagHelper(FGameplayTag InTag) const;
 
 END_DEFINE_SPEC(FDefaultWeaponInventorySpec)
 
@@ -30,12 +31,12 @@ void FDefaultWeaponInventorySpec::Define() {
         });
 
         It("Should register weapons properly", [this]() {
-            AActor *WeaponActor =
+            UWeaponComponent *WeaponComponent =
                 GetRegisteredWeaponWithTagHelper(WeaponTagFixture);
 
             TestTrue("GetWeaponByTag(WeaponTag) == WeaponActor",
                      DefaultWeaponInventoryFixture->GetWeaponByTag(
-                         WeaponTagFixture) == WeaponActor);
+                         WeaponTagFixture) == WeaponComponent);
         });
 
         It("Should not start with weapon equipped", [this]() {
@@ -43,12 +44,13 @@ void FDefaultWeaponInventorySpec::Define() {
                       DefaultWeaponInventoryFixture->GetEquippedWeaponTag()
                           .IsValid());
 
-            TestNull("EquippedWeaponActor",
-                     DefaultWeaponInventoryFixture->GetEquippedWeapon());
+            TestNull(
+                "EquippedWeaponActor",
+                DefaultWeaponInventoryFixture->GetEquippedWeapon().GetObject());
         });
 
         It("Should be able to equip registered weapons", [this]() {
-            AActor *WeaponActor =
+            UWeaponComponent *WeaponComponent =
                 GetRegisteredWeaponWithTagHelper(WeaponTagFixture);
 
             TestTrue(
@@ -61,7 +63,7 @@ void FDefaultWeaponInventorySpec::Define() {
 
             TestTrue("EquippedWeaponActor is the test WeaponActor",
                      DefaultWeaponInventoryFixture->GetEquippedWeapon() ==
-                         WeaponActor);
+                         WeaponComponent);
         });
 
         It("Should be not able to equip weapon with invalid tag", [this]() {
@@ -80,8 +82,9 @@ void FDefaultWeaponInventorySpec::Define() {
         It("Should get an invalid actor when getting a non registered weapon",
            [this]() {
                TestNull("GetWeaponByTag() return value",
-                        DefaultWeaponInventoryFixture->GetWeaponByTag(
-                            FGameplayTag::EmptyTag));
+                        DefaultWeaponInventoryFixture
+                            ->GetWeaponByTag(FGameplayTag::EmptyTag)
+                            .GetObject());
            });
 
         It("CheckHasWeapon.Should have Weapon when providing a registered "
@@ -110,10 +113,11 @@ void FDefaultWeaponInventorySpec::Define() {
     });
 }
 
-AActor *FDefaultWeaponInventorySpec::GetRegisteredWeaponWithTagHelper(
+UWeaponComponent *FDefaultWeaponInventorySpec::GetRegisteredWeaponWithTagHelper(
     FGameplayTag InTag) const {
-    AActor *WeaponActor = NewObject<AActor>();
-    DefaultWeaponInventoryFixture->RegisterWeapon(InTag, WeaponActor, false);
+    UWeaponComponent *WeaponComponent = NewObject<UWeaponComponent>();
+    DefaultWeaponInventoryFixture->RegisterWeapon(InTag, WeaponComponent,
+                                                  false);
 
-    return WeaponActor;
+    return WeaponComponent;
 }

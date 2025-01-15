@@ -18,8 +18,20 @@ void UPlayerWeaponComponent::BeginPlay() {
     }
 }
 
+AActor *UPlayerWeaponComponent::GetActor_Implementation() const {
+    return GetOwner();
+}
+
 UShapeComponent *UPlayerWeaponComponent::GetCollisionComponent() const {
     return CollisionComponent;
+}
+
+const FHitTarget &UPlayerWeaponComponent::GetBeginHitOtherPawnDelegate() const {
+    return BeginHitOtherPawn;
+}
+
+const FHitTarget &UPlayerWeaponComponent::GetEndHitOtherPawnDelegate() const {
+    return EndHitOtherPawn;
 }
 
 void UPlayerWeaponComponent::AssignGrantedAbilitiesSpecHandles(
@@ -34,17 +46,11 @@ void UPlayerWeaponComponent::OnCollisionComponentBeginOverlap(
     int32 OtherBodyIndex,
     bool bFromSweep,
     const FHitResult &SweepResult) {
-    APawn *OwningPawn = GetOwner()->GetInstigator<APawn>();
-    MYSTICA_LOG_AND_RETURN_IF(
-        !OwningPawn, LogTemp, Warning,
-        TEXT("Will not continue OnCollisionComponentBeginOverlap logic, "
-             "missing valid Instigator"));
+    APawn *InstigatorPawn = GetInstigator();
 
     if (APawn *HitPawn = Cast<APawn>(OtherActor)) {
-        if (OwningPawn != HitPawn) {
-            UE_LOG(LogTemp, Warning, TEXT("Weapon properly hit another Pawn"));
-        } else {
-            UE_LOG(LogTemp, Warning, TEXT("Weapon hit OwningPawn"));
+        if (InstigatorPawn != HitPawn) {
+            BeginHitOtherPawn.Broadcast(HitPawn);
         }
     }
 }
@@ -54,4 +60,21 @@ void UPlayerWeaponComponent::OnCollisionComponentEndOverlap(
     AActor *OtherActor,
     UPrimitiveComponent *OtherComp,
     int32 OtherBodyIndex) {
+    APawn *InstigatorPawn = GetInstigator();
+
+    if (APawn *HitPawn = Cast<APawn>(OtherActor)) {
+        if (InstigatorPawn != HitPawn) {
+            EndHitOtherPawn.Broadcast(HitPawn);
+        }
+    }
+}
+
+APawn *UPlayerWeaponComponent::GetInstigator() const {
+    APawn *InstigatorPawn = GetOwner()->GetInstigator<APawn>();
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !InstigatorPawn, LogTemp, Warning, nullptr,
+        TEXT("Will not continue OnCollisionComponentBeginOverlap logic, "
+             "missing valid Instigator"));
+
+    return InstigatorPawn;
 }

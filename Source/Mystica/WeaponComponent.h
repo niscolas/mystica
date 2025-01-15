@@ -6,6 +6,8 @@
 
 class UShapeComponent;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FHitTarget, APawn *);
+
 UINTERFACE(MinimalAPI)
 
 class UWeaponComponent : public UInterface {
@@ -16,5 +18,10 @@ class MYSTICA_API IWeaponComponent {
     GENERATED_BODY()
 
 public:
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    AActor *GetActor() const;
+
     virtual UShapeComponent *GetCollisionComponent() const = 0;
+    virtual const FHitTarget &GetBeginHitOtherPawnDelegate() const = 0;
+    virtual const FHitTarget &GetEndHitOtherPawnDelegate() const = 0;
 };

@@ -3,6 +3,7 @@
 #include "HelperMacros.h"
 #include "Mystica/DefaultWeaponInventory.h"
 #include "PlayerWeaponComponent.h"
+#include "WeaponComponent.h"
 
 UPlayerCombatComponent::UPlayerCombatComponent() {
     PrimaryComponentTick.bCanEverTick = false;
@@ -12,30 +13,34 @@ void UPlayerCombatComponent::BeginPlay() {
     Super::BeginPlay();
 }
 
-void UPlayerCombatComponent::RegisterWeapon_Implementation(FGameplayTag InTag,
-                                                           AActor *InActor,
-                                                           bool ShouldEquip) {
-    WeaponInventory.RegisterWeapon(InTag, InActor, ShouldEquip);
+void UPlayerCombatComponent::RegisterWeapon_Implementation(
+    FGameplayTag InTag,
+    const TScriptInterface<IWeaponComponent> &InWeaponComponent,
+    bool ShouldEquip) {
+    WeaponInventory.RegisterWeapon(InTag, InWeaponComponent, ShouldEquip);
 }
 
 void UPlayerCombatComponent::EquipWeapon_Implementation(FGameplayTag InTag) {
     WeaponInventory.EquipWeapon(InTag);
 }
 
-AActor *UPlayerCombatComponent::GetWeaponByTag_Implementation(
+TScriptInterface<IWeaponComponent>
+UPlayerCombatComponent::GetWeaponByTag_Implementation(
     FGameplayTag InTag) const {
     return WeaponInventory.GetWeaponByTag(InTag);
 }
 
 UPlayerWeaponComponent *UPlayerCombatComponent::GetPlayerWeaponComponentByTag(
     FGameplayTag InTag) const {
-    const AActor *FoundWeapon = GetWeaponByTag_Implementation(InTag);
+    TScriptInterface<IWeaponComponent> FoundWeapon =
+        GetWeaponByTag_Implementation(InTag);
     MYSTICA_IF_NULL_LOG_AND_RETURN_VALUE(LogTemp, Error, FoundWeapon, nullptr);
 
-    return FoundWeapon->GetComponentByClass<UPlayerWeaponComponent>();
+    return Cast<UPlayerWeaponComponent>(FoundWeapon.GetInterface());
 }
 
-AActor *UPlayerCombatComponent::GetEquippedWeapon_Implementation() const {
+TScriptInterface<IWeaponComponent>
+UPlayerCombatComponent::GetEquippedWeapon_Implementation() const {
     return WeaponInventory.GetEquippedWeapon();
 }
 

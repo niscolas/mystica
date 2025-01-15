@@ -2,8 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "UObject/ScriptInterface.h"
 #include "MysticaMiscFunctionLibrary.generated.h"
 
+class IWeaponComponent;
 class UCombatComponent;
 
 UCLASS()
@@ -15,4 +17,8 @@ class MYSTICA_API UMysticaMiscFunctionLibrary
 public:
     UFUNCTION(BlueprintPure, Category = "Combat|Function Library")
     static UCombatComponent *GetCombatComponentFromActor(AActor *InActor);
+
+    UFUNCTION(BlueprintPure, Category = "Combat|Function Library")
+    static TScriptInterface<IWeaponComponent>
+    GetWeaponComponentFromActor(AActor *InWeaponActor);
 };

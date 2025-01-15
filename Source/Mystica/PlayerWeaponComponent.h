@@ -24,7 +24,13 @@ public:
     void AssignGrantedAbilitiesSpecHandles(
         const TArray<FGameplayAbilitySpecHandle> &InSpecHandles);
 
+    UFUNCTION(BlueprintPure, Category = "Combat")
+    virtual AActor *GetActor_Implementation() const override;
+
     virtual UShapeComponent *GetCollisionComponent() const override;
+
+    virtual const FHitTarget &GetBeginHitOtherPawnDelegate() const override;
+    virtual const FHitTarget &GetEndHitOtherPawnDelegate() const override;
 
 private:
     UPROPERTY(EditDefaultsOnly,
@@ -57,6 +63,9 @@ private:
               meta = (AllowPrivateAccess))
     TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 
+    FHitTarget BeginHitOtherPawn;
+    FHitTarget EndHitOtherPawn;
+
     UFUNCTION()
     void
     OnCollisionComponentBeginOverlap(UPrimitiveComponent *OverlappedComponent,
@@ -74,4 +83,5 @@ private:
                                    int32 OtherBodyIndex);
 
     virtual void BeginPlay() override;
+    APawn *GetInstigator() const;
 };

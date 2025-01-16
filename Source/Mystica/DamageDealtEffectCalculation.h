@@ -8,4 +8,7 @@ UCLASS()
 class MYSTICA_API UDamageDealtEffectCalculation
     : public UGameplayEffectExecutionCalculation {
     GENERATED_BODY()
+
+public:
+    UDamageDealtEffectCalculation();
 };

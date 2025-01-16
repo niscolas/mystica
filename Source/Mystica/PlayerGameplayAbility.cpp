@@ -3,7 +3,9 @@
 #include "CombatComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayEffectTypes.h"
 #include "HelperMacros.h"
+#include "Mystica/MysticaGameplayTags.h"
 #include "MysticaAbilitySystemComponent.h"
 
 APlayerController *
@@ -48,4 +50,36 @@ void UPlayerGameplayAbility::EndAbility(
     MYSTICA_RETURN_IF(!ActorInfo);
 
     ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
+}
+
+FGameplayEffectSpecHandle UPlayerGameplayAbility::MakeDamageEffectSpecHandle(
+    TSubclassOf<UGameplayEffect> InEffectClass,
+    float InWeaponBaseDamage,
+    FGameplayTag InAttackTypeTag,
+    int32 InCurrentComboCount) const {
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !InEffectClass, LogTemp, Warning, FGameplayEffectSpecHandle(),
+        TEXT("Will not Make Damage Effect Spec Handle, invalid inputs"));
+
+    UAbilitySystemComponent *AbilitySystemComponent =
+        GetAbilitySystemComponentFromActorInfo();
+
+    FGameplayEffectContextHandle ContextHandle =
+        AbilitySystemComponent->MakeEffectContext();
+    ContextHandle.SetAbility(this);
+    ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+    ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(),
+                                GetAvatarActorFromActorInfo());
+
+    FGameplayEffectSpecHandle SpecHandle =
+        GetAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec(
+            InEffectClass, GetAbilityLevel(), ContextHandle);
+    SpecHandle.Data->SetSetByCallerMagnitude(
+        MysticaGameplayTags::Shared_SetByCaller_BaseDamage, InWeaponBaseDamage);
+    if (InAttackTypeTag.IsValid()) {
+        SpecHandle.Data->SetSetByCallerMagnitude(InAttackTypeTag,
+                                                 InCurrentComboCount);
+    }
+
+    return SpecHandle;
 }

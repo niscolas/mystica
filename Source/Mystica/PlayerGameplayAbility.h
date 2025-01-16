@@ -40,6 +40,15 @@ private:
     UMysticaAbilitySystemComponent *
     GetPlayerAbilitySystemComponentFromActorInfo() const;
 
+    UFUNCTION(BlueprintPure,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess))
+    FGameplayEffectSpecHandle
+    MakeDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> InEffectClass,
+                               float InWeaponBaseDamage,
+                               FGameplayTag InAttackTypeTag,
+                               int32 InCurrentComboCount) const;
+
     virtual void OnGiveAbility(const FGameplayAbilityActorInfo *ActorInfo,
                                const FGameplayAbilitySpec &Spec) override;
     virtual void EndAbility(const FGameplayAbilitySpecHandle Handle,

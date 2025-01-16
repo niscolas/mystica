@@ -30,4 +30,7 @@ UE_DEFINE_GAMEPLAY_TAG(Player_Effect_HeavyAttackFinisherReady_Sword,
 UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon, "Enemy.Weapon");
 
 UE_DEFINE_GAMEPLAY_TAG(Shared_Event_MeleeHit, "Shared.Event.MeleeHit");
+
+UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_BaseDamage,
+                       "Shared.SetByCaller.BaseDamage");
 } // namespace MysticaGameplayTags

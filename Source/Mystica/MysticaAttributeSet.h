@@ -49,4 +49,7 @@ public:
     UPROPERTY(BlueprintReadOnly, Category = "Combat|Damage")
     FGameplayAttributeData DamageTaken;
     ATTRIBUTE_ACCESSORS(UMysticaAttributeSet, DamageTaken)
+
+    virtual void PostGameplayEffectExecute(
+        const struct FGameplayEffectModCallbackData &Data) override;
 };

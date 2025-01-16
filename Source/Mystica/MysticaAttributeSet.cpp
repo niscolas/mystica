@@ -1,4 +1,6 @@
 #include "MysticaAttributeSet.h"
+#include "AttributeSet.h"
+#include "GameplayEffectExtension.h"
 
 UMysticaAttributeSet::UMysticaAttributeSet() {
     InitCurrentHealth(1);
@@ -12,4 +14,25 @@ UMysticaAttributeSet::UMysticaAttributeSet() {
 
     InitLightComboCount(1);
     InitHeavyComboCount(1);
+}
+
+void UMysticaAttributeSet::PostGameplayEffectExecute(
+    const struct FGameplayEffectModCallbackData &Data) {
+    if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute()) {
+        SetCurrentHealth(FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth()));
+    }
+
+    if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute()) {
+        SetCurrentRage(FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage()));
+    }
+
+    if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute()) {
+        const float OldHealth = GetCurrentHealth();
+        SetCurrentHealth(
+            FMath::Clamp(OldHealth - GetDamageTaken(), 0.f, GetMaxHealth()));
+
+        UE_LOG(LogTemp, Warning,
+               TEXT("OldHealth: %f, DamageTaken: %f, NewCurrentHealth: %f"),
+               OldHealth, GetDamageTaken(), GetCurrentHealth());
+    }
 }

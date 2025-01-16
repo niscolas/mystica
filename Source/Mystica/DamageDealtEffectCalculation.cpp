@@ -53,9 +53,6 @@ void UDamageDealtEffectCalculation::Execute_Implementation(
         GetDamageDealtCapture().AttackBaseDamageDef, EvaluateParameters,
         SourceAttackBaseDamage);
 
-    UE_LOG(LogTemp, Warning, TEXT("SourceAttackBaseDamage: %f"),
-           SourceAttackBaseDamage);
-
     float FinalDamage = 0.f;
     int32 LightAttackComboCount = 0;
     int32 HeavyAttackComboCount = 0;
@@ -65,21 +62,15 @@ void UDamageDealtEffectCalculation::Execute_Implementation(
                 MysticaGameplayTags::Shared_SetByCaller_BaseDamage)) {
             FinalDamage = TagMagnitude.Value;
 
-            UE_LOG(LogTemp, Warning, TEXT("FinalDamage 1: %f"), FinalDamage);
         } else if (TagMagnitude.Key.MatchesTagExact(
                        MysticaGameplayTags::
                            Player_SetByCaller_AttackType_Light)) {
             LightAttackComboCount = TagMagnitude.Value;
 
-            UE_LOG(LogTemp, Warning, TEXT("LightAttackComboCount: %d"),
-                   LightAttackComboCount);
         } else if (TagMagnitude.Key.MatchesTagExact(
                        MysticaGameplayTags::
                            Player_SetByCaller_AttackType_Heavy)) {
             HeavyAttackComboCount = TagMagnitude.Value;
-
-            UE_LOG(LogTemp, Warning, TEXT("HeavyAttackComboCount: %d"),
-                   HeavyAttackComboCount);
         }
     }
 
@@ -87,29 +78,20 @@ void UDamageDealtEffectCalculation::Execute_Implementation(
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
         GetDamageDealtCapture().DefenseDef, EvaluateParameters, TargetDefense);
 
-    UE_LOG(LogTemp, Warning, TEXT("TargetDefense: %f"), TargetDefense);
-
     if (LightAttackComboCount != 0) {
         const float LightAttackDamageIncrease =
             (LightAttackComboCount - 1) * 0.05 + 1.f;
         FinalDamage *= LightAttackDamageIncrease;
-
-        UE_LOG(LogTemp, Warning, TEXT("ScaledDamageByLightCombo: %f"),
-               FinalDamage);
     }
 
     if (HeavyAttackComboCount != 0) {
         const float HeavyAttackDamageIncrease =
             HeavyAttackComboCount * 0.15 + 1.f;
         FinalDamage *= HeavyAttackDamageIncrease;
-
-        UE_LOG(LogTemp, Warning, TEXT("ScaledDamageByHeavyCombo: %f"),
-               FinalDamage);
     }
 
     FinalDamage = FinalDamage * SourceAttackBaseDamage / TargetDefense;
 
-    UE_LOG(LogTemp, Warning, TEXT("RealFinalDamage: %f"), FinalDamage);
     if (FinalDamage > 0.f) {
         OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(
             GetDamageDealtCapture().DamageTakenProperty,

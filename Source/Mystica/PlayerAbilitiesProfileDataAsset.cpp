@@ -13,11 +13,21 @@ void UPlayerAbilitiesProfileDataAsset::GiveAllTo(
     UMysticaAbilitySystemFunctionLibrary::ApplyEffectsToAbilitySystemComponent(
         InAbilitySystemComponent, StartUpEffects, ApplyLevel);
 
-    UMysticaAbilitySystemFunctionLibrary::GiveCommonAbilitiesTo(
-        InAbilitySystemComponent,
-        CommonAbilities[EAbilityActivationSituation::OnGiven].Content,
-        ApplyLevel);
+    FGameplayAbilitiesArray *FoundOnGivenAbilities =
+        CommonAbilities.Find(EAbilityActivationSituation::OnGiven);
+    if (FoundOnGivenAbilities) {
+        UMysticaAbilitySystemFunctionLibrary::GiveCommonAbilitiesTo(
+            InAbilitySystemComponent, FoundOnGivenAbilities->Content,
+            ApplyLevel);
+    }
 
+    FGameplayAbilitiesArray *FoundReactiveAbilities =
+        CommonAbilities.Find(EAbilityActivationSituation::Reactive);
+    if (FoundReactiveAbilities) {
+        UMysticaAbilitySystemFunctionLibrary::GiveCommonAbilitiesTo(
+            InAbilitySystemComponent, FoundReactiveAbilities->Content,
+            ApplyLevel);
+    }
     TArray<FGameplayAbilitySpecHandle> SpecHandles;
     UMysticaAbilitySystemFunctionLibrary::GiveGameplayTagBasedAbilitiesTo(
         InAbilitySystemComponent, GameplayTagBasedAbilities, ApplyLevel,

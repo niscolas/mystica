@@ -6,7 +6,7 @@
 class UGameplayAbility;
 
 UENUM(BlueprintType)
-enum class EAbilityActivationSituation : uint8 { OnGiven };
+enum class EAbilityActivationSituation : uint8 { OnGiven, Reactive };
 
 USTRUCT(BlueprintType)
 

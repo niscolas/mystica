@@ -19,6 +19,14 @@ void UEnemyAbilitiesProfileDataAsset::GiveAllTo(
             ApplyLevel);
     }
 
+    FGameplayAbilitiesArray *FoundReactiveAbilities =
+        CommonAbilities.Find(EAbilityActivationSituation::Reactive);
+    if (FoundReactiveAbilities) {
+        UMysticaAbilitySystemFunctionLibrary::GiveCommonAbilitiesTo(
+            InAbilitySystemComponent, FoundReactiveAbilities->Content,
+            ApplyLevel);
+    }
+
     UMysticaAbilitySystemFunctionLibrary::GiveCommonAbilitiesTo(
         InAbilitySystemComponent, CombatAbilities, ApplyLevel);
 }

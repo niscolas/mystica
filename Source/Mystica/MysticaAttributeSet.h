@@ -45,4 +45,8 @@ public:
     UPROPERTY(BlueprintReadOnly, Category = "Combat|Combo")
     FGameplayAttributeData HeavyComboCount;
     ATTRIBUTE_ACCESSORS(UMysticaAttributeSet, HeavyComboCount)
+
+    UPROPERTY(BlueprintReadOnly, Category = "Combat|Damage")
+    FGameplayAttributeData DamageTaken;
+    ATTRIBUTE_ACCESSORS(UMysticaAttributeSet, DamageTaken)
 };

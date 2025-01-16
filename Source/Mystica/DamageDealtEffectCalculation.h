@@ -11,4 +11,9 @@ class MYSTICA_API UDamageDealtEffectCalculation
 
 public:
     UDamageDealtEffectCalculation();
+
+    virtual void Execute_Implementation(
+        const FGameplayEffectCustomExecutionParameters &ExecutionParams,
+        FGameplayEffectCustomExecutionOutput &OutExecutionOutput)
+        const override;
 };

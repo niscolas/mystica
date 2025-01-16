@@ -6,6 +6,7 @@
 #include "GameplayEffectTypes.h"
 #include "HelperMacros.h"
 #include "Mystica/MysticaGameplayTags.h"
+#include "Mystica/PlayerCombatComponent.h"
 #include "MysticaAbilitySystemComponent.h"
 
 APlayerController *
@@ -24,6 +25,12 @@ UMysticaAbilitySystemComponent *
 UPlayerGameplayAbility::GetPlayerAbilitySystemComponentFromActorInfo() const {
     return GetAvatarActorFromActorInfo()
         ->FindComponentByClass<UMysticaAbilitySystemComponent>();
+}
+
+UPlayerCombatComponent *
+UPlayerGameplayAbility::GetPlayerCombatComponentFromActorInfo() const {
+    return GetAvatarActorFromActorInfo()
+        ->FindComponentByClass<UPlayerCombatComponent>();
 }
 
 void UPlayerGameplayAbility::OnGiveAbility(

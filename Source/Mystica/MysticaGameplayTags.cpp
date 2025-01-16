@@ -27,6 +27,11 @@ UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_Sword,
 UE_DEFINE_GAMEPLAY_TAG(Player_Effect_HeavyAttackFinisherReady_Sword,
                        "Player.Effect.HeavyAttackFinisherReady.Sword");
 
+UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Light,
+                       "Player.SetByCaller.AttackType.Light");
+UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Heavy,
+                       "Player.SetByCaller.AttackType.Heavy");
+
 UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon, "Enemy.Weapon");
 
 UE_DEFINE_GAMEPLAY_TAG(Shared_Event_MeleeHit, "Shared.Event.MeleeHit");

@@ -39,6 +39,9 @@ public:
     GetPlayerWeaponComponentByTag(FGameplayTag InTag) const;
 
     UFUNCTION(BlueprintPure, Category = "Combat")
+    UPlayerWeaponComponent *GetEquippedPlayerWeaponComponent() const;
+
+    UFUNCTION(BlueprintPure, Category = "Combat")
     TScriptInterface<IWeaponComponent>
     GetEquippedWeapon_Implementation() const override;
 

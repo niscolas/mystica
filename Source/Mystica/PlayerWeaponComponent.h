@@ -5,6 +5,7 @@
 #include "GameplayAbilitySpecHandle.h"
 #include "GameplayTagContainer.h"
 #include "Mystica/WeaponComponent.h"
+#include "ScalableFloat.h"
 #include "PlayerWeaponComponent.generated.h"
 
 class UShapeComponent;
@@ -57,6 +58,12 @@ private:
               meta = (AllowPrivateAccess))
     TMap<FGameplayTag, TSubclassOf<UGameplayAbility>> DefaultAbilities;
 
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadWrite,
+              Category = "Combat",
+              meta = (AllowPrivateAccess))
+    FScalableFloat BaseDamage;
+
     UPROPERTY(VisibleAnywhere,
               BlueprintReadWrite,
               Category = "Combat",
@@ -65,6 +72,9 @@ private:
 
     FHitTarget BeginHitOtherPawn;
     FHitTarget EndHitOtherPawn;
+
+    UFUNCTION(BlueprintPure, Category = "Combat", meta = (AllowPrivateAccess))
+    float GetDamageAtLevel(float InLevel) const;
 
     UFUNCTION()
     void

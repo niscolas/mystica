@@ -39,6 +39,10 @@ void UPlayerWeaponComponent::AssignGrantedAbilitiesSpecHandles(
     GrantedAbilitySpecHandles = InSpecHandles;
 }
 
+float UPlayerWeaponComponent::GetDamageAtLevel(float InLevel) const {
+    return BaseDamage.GetValueAtLevel(InLevel);
+}
+
 void UPlayerWeaponComponent::OnCollisionComponentBeginOverlap(
     UPrimitiveComponent *OverlappedComponent,
     AActor *OtherActor,

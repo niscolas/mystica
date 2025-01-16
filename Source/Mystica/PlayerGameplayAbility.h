@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "PlayerGameplayAbility.generated.h"
 
+class UPlayerCombatComponent;
 class APlayerController;
 class UMysticaAbilitySystemComponent;
 
@@ -39,6 +40,11 @@ private:
               meta = (AllowPrivateAccess))
     UMysticaAbilitySystemComponent *
     GetPlayerAbilitySystemComponentFromActorInfo() const;
+
+    UFUNCTION(BlueprintPure,
+              Category = "Ability System",
+              meta = (AllowPrivateAccess))
+    UPlayerCombatComponent *GetPlayerCombatComponentFromActorInfo() const;
 
     UFUNCTION(BlueprintPure,
               Category = "Ability System",

@@ -49,6 +49,11 @@ UPlayerWeaponComponent *UPlayerCombatComponent::GetPlayerWeaponComponentByTag(
     return Cast<UPlayerWeaponComponent>(FoundWeapon.GetInterface());
 }
 
+UPlayerWeaponComponent *
+UPlayerCombatComponent::GetEquippedPlayerWeaponComponent() const {
+    return GetPlayerWeaponComponentByTag(GetEquippedWeaponTag_Implementation());
+}
+
 TScriptInterface<IWeaponComponent>
 UPlayerCombatComponent::GetEquippedWeapon_Implementation() const {
     return WeaponInventory.GetEquippedWeapon();
@@ -61,8 +66,8 @@ UPlayerCombatComponent::GetEquippedWeaponTag_Implementation() const {
 
 void UPlayerCombatComponent::SetWeaponCollisionState_Implementation(
     bool SetActive) {
-    UPlayerWeaponComponent *FoundWeapon =
-        GetPlayerWeaponComponentByTag(GetEquippedWeaponTag_Implementation());
+    UPlayerWeaponComponent *FoundWeapon = GetEquippedPlayerWeaponComponent();
+
     MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, FoundWeapon);
 
     UShapeComponent *CollisionComponent = FoundWeapon->GetCollisionComponent();

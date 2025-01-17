@@ -1,6 +1,9 @@
 #include "MysticaAttributeSet.h"
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AttributeSet.h"
 #include "GameplayEffectExtension.h"
+#include "Mystica/MysticaGameplayTags.h"
+#include "MysticaGameplayTags.h"
 
 UMysticaAttributeSet::UMysticaAttributeSet() {
     InitCurrentHealth(1);
@@ -34,5 +37,11 @@ void UMysticaAttributeSet::PostGameplayEffectExecute(
         UE_LOG(LogTemp, Warning,
                TEXT("OldHealth: %f, DamageTaken: %f, NewCurrentHealth: %f"),
                OldHealth, GetDamageTaken(), GetCurrentHealth());
+
+        if (GetCurrentHealth() <= 0) {
+            UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+                GetOwningActor(), MysticaGameplayTags::Shared_Event_Death,
+                FGameplayEventData());
+        }
     }
 }

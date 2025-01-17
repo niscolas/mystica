@@ -99,9 +99,17 @@ void UPlayerCombatComponent::OnBeginHitOtherPawn(APawn *OtherPawn) {
     UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
         GetOwner(), MysticaGameplayTags::Shared_Event_MeleeHit,
         GameplayEventData);
+
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+        GetOwner(), MysticaGameplayTags::Player_Event_HitPause,
+        FGameplayEventData());
 }
 
 void UPlayerCombatComponent::OnEndHitOtherPawn(APawn *OtherPawn) {
     UE_LOG(LogTemp, Warning, TEXT("OnEndHitOtherPawn: %s"),
            *OtherPawn->GetName());
+
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+        GetOwner(), MysticaGameplayTags::Player_Event_HitPause,
+        FGameplayEventData());
 }

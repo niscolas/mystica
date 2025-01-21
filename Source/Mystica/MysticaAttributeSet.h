@@ -4,7 +4,12 @@
 #include "AttributeSet.h"
 #include "CoreMinimal.h"
 #include "HelperMacros.h"
+#include "UObject/ScriptInterface.h"
+#include "UObject/WeakInterfacePtr.h"
 #include "MysticaAttributeSet.generated.h"
+
+class IPawnUI;
+class IPawnUIComponent;
 
 UCLASS()
 
@@ -52,4 +57,10 @@ public:
 
     virtual void PostGameplayEffectExecute(
         const struct FGameplayEffectModCallbackData &Data) override;
+
+private:
+    TWeakInterfacePtr<IPawnUI> CachedPawnUI;
+
+    void BroadcastHealthPercentageChanged(
+        TScriptInterface<IPawnUIComponent> &PawnUIComponent);
 };

@@ -57,10 +57,19 @@ ADefaultPlayer::ADefaultPlayer() {
 
     CombatComponent = CreateDefaultSubobject<UPlayerCombatComponent>(
         TEXT("PlayerCombatComponent"));
+
+    UIComponent =
+        CreateDefaultSubobject<UPlayerUIComponent>(TEXT("PlayerUIComponent"));
 }
 
 UCombatComponent *ADefaultPlayer::GetCombatComponent() const {
     return FindComponentByInterface<UCombatComponent>();
+}
+
+TScriptInterface<IPawnUIComponent> ADefaultPlayer::GetUIComponent() const {
+    UE_LOG(LogTemp, Warning, TEXT("PlayerUIComponent: %s"),
+           UIComponent ? TEXT("True") : TEXT("False"));
+    return UIComponent;
 }
 
 void ADefaultPlayer::BeginPlay() {

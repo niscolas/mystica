@@ -1,6 +1,7 @@
 #include "DefaultEnemy.h"
 #include "EnemyAbilitiesProfileDataAsset.h"
 #include "EnemyCombatComponent.h"
+#include "EnemyUIComponent.h"
 #include "Engine/AssetManager.h"
 #include "Engine/StreamableManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -31,10 +32,17 @@ ADefaultEnemy::ADefaultEnemy() {
 
     CombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>(
         TEXT("EnemyCombatComponent"));
+
+    UIComponent =
+        CreateDefaultSubobject<UEnemyUIComponent>(TEXT("EnemyUIComponent"));
 }
 
 UCombatComponent *ADefaultEnemy::GetCombatComponent() const {
     return FindComponentByInterface<UCombatComponent>();
+}
+
+TScriptInterface<IPawnUIComponent> ADefaultEnemy::GetUIComponent() const {
+    return UIComponent;
 }
 
 void ADefaultEnemy::BeginPlay() {

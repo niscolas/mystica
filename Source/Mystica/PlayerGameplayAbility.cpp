@@ -5,9 +5,12 @@
 #include "GameFramework/PlayerController.h"
 #include "GameplayEffectTypes.h"
 #include "HelperMacros.h"
+#include "Logging/LogMacros.h"
 #include "Mystica/MysticaGameplayTags.h"
+#include "Mystica/PawnUI.h"
 #include "Mystica/PlayerCombatComponent.h"
 #include "MysticaAbilitySystemComponent.h"
+#include "PlayerUIComponent.h"
 
 APlayerController *
 UPlayerGameplayAbility::GetPlayerControllerFromActorInfo() const {
@@ -31,6 +34,22 @@ UPlayerCombatComponent *
 UPlayerGameplayAbility::GetPlayerCombatComponentFromActorInfo() const {
     return GetAvatarActorFromActorInfo()
         ->FindComponentByClass<UPlayerCombatComponent>();
+}
+
+UPlayerUIComponent *
+UPlayerGameplayAbility::GetPlayerUIComponentFromActorInfo() const {
+    IPawnUI *PawnUI = Cast<IPawnUI>(GetAvatarActorFromActorInfo());
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !PawnUI, LogTemp, Warning, nullptr,
+        TEXT("Will not get PlayerUIComponent, Actor is not an IPawnUI"));
+
+    TScriptInterface<IPawnUIComponent> PawnUIComponent =
+        PawnUI->GetUIComponent();
+
+    UE_LOG(LogTemp, Warning, TEXT("PawnUIComponent: %s"),
+           PawnUIComponent.GetInterface() ? TEXT("True") : TEXT("False"));
+
+    return Cast<UPlayerUIComponent>(PawnUIComponent.GetInterface());
 }
 
 void UPlayerGameplayAbility::OnGiveAbility(

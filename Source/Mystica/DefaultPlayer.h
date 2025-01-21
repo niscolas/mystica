@@ -6,6 +6,9 @@
 #include "GameplayTagContainer.h"
 #include "Logging/LogMacros.h"
 #include "Mystica/CombatPawn.h"
+#include "PawnUI.h"
+#include "PlayerUIComponent.h"
+#include "UObject/ScriptInterface.h"
 #include "UObject/SoftObjectPtr.h"
 #include "DefaultPlayer.generated.h"
 
@@ -15,6 +18,7 @@ class UInputMappingContext;
 class UInputAction;
 class UInputConfigDataAsset;
 struct FInputActionValue;
+class IPawnUIComponent;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -22,7 +26,8 @@ UCLASS(config = Game)
 
 class ADefaultPlayer : public ACharacter,
                        public IAbilitySystemInterface,
-                       public ICombatPawn {
+                       public ICombatPawn,
+                       public IPawnUI {
     GENERATED_BODY()
 
 public:
@@ -37,6 +42,7 @@ public:
     }
 
     virtual UCombatComponent *GetCombatComponent() const override;
+    virtual TScriptInterface<IPawnUIComponent> GetUIComponent() const override;
 
 private:
     UPROPERTY(VisibleAnywhere,
@@ -80,6 +86,12 @@ private:
               Category = "Combat",
               meta = (AllowPrivateAccess))
     class UPlayerCombatComponent *CombatComponent;
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "UI",
+              meta = (AllowPrivateAccess))
+    UPlayerUIComponent *UIComponent;
 
     virtual void SetupPlayerInputComponent(
         class UInputComponent *PlayerInputComponent) override;

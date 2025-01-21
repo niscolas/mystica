@@ -8,6 +8,7 @@
 class UPlayerCombatComponent;
 class APlayerController;
 class UMysticaAbilitySystemComponent;
+class UPlayerUIComponent;
 
 UENUM(BlueprintType)
 enum class EAbilityActivationPolicy : uint8 { OnTriggered, OnGiven };
@@ -45,6 +46,9 @@ private:
               Category = "Ability System",
               meta = (AllowPrivateAccess))
     UPlayerCombatComponent *GetPlayerCombatComponentFromActorInfo() const;
+
+    UFUNCTION(BlueprintPure, Category = "UI", meta = (AllowPrivateAccess))
+    UPlayerUIComponent *GetPlayerUIComponentFromActorInfo() const;
 
     UFUNCTION(BlueprintPure,
               Category = "Ability System",

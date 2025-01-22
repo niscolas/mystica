@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Mystica/PlayerUIComponent.h"
 #include "UObject/Interface.h"
 #include "PlayerUIWidget.generated.h"
 

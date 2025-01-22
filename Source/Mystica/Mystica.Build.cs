@@ -14,6 +14,7 @@ public class Mystica : ModuleRules
 				"EnhancedInput",
 				"GameplayTags",
 				"GameplayTasks",
-				"FunctionalTesting"});
+				"FunctionalTesting",
+				"UMG"});
 	}
 }

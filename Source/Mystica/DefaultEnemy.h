@@ -15,6 +15,7 @@ class UEnemyCombatComponent;
 class UMysticaAbilitySystemComponent;
 class IPawnUIComponent;
 class UEnemyUIComponent;
+class UWidgetComponent;
 
 UCLASS()
 
@@ -64,4 +65,11 @@ private:
               Category = "UI",
               meta = (AllowPrivateAccess))
     UEnemyUIComponent *UIComponent;
+
+protected:
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "UI",
+              meta = (AllowPrivateAccess))
+    UWidgetComponent *HealthBarWidgetComponent;
 };

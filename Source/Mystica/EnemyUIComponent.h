@@ -18,6 +18,9 @@ public:
     virtual FPercentageChanged &GetRagePercentageChangedDelegate() override;
 
 private:
+    UPROPERTY(BlueprintAssignable, Category = "UI", meta = (AllowPrivateAccess))
     FPercentageChanged HealthPercentageChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "UI", meta = (AllowPrivateAccess))
     FPercentageChanged RagePercentageChanged;
 };

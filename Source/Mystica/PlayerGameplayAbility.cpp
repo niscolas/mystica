@@ -39,17 +39,32 @@ UPlayerGameplayAbility::GetPlayerCombatComponentFromActorInfo() const {
 UPlayerUIComponent *
 UPlayerGameplayAbility::GetPlayerUIComponentFromActorInfo() const {
     IPawnUI *PawnUI = Cast<IPawnUI>(GetAvatarActorFromActorInfo());
+    AActor *TargetActor = GetAvatarActorFromActorInfo();
+
     MYSTICA_LOG_AND_RETURN_VALUE_IF(
         !PawnUI, LogTemp, Warning, nullptr,
-        TEXT("Will not get PlayerUIComponent, Actor is not an IPawnUI"));
+        TEXT("Will not get PlayerUIComponent, Actor (%s) is not an IPawnUI"),
+        *TargetActor->GetActorNameOrLabel());
 
     TScriptInterface<IPawnUIComponent> PawnUIComponent =
         PawnUI->GetUIComponent();
 
-    UE_LOG(LogTemp, Warning, TEXT("PawnUIComponent: %s"),
-           PawnUIComponent.GetInterface() ? TEXT("True") : TEXT("False"));
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !PawnUIComponent.GetInterface(), LogTemp, Warning, nullptr,
+        TEXT("Will not get PlayerUIComponent, invalid PawnUIComponent provided "
+             "by %s"),
+        *TargetActor->GetActorNameOrLabel());
 
-    return Cast<UPlayerUIComponent>(PawnUIComponent.GetInterface());
+    UPlayerUIComponent *Result =
+        Cast<UPlayerUIComponent>(PawnUIComponent.GetInterface());
+
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !Result, LogTemp, Warning, nullptr,
+        TEXT("Will not get PlayerUIComponent, %s's PawnUIComponent is not an "
+             "UPlayerUIComponent"),
+        *TargetActor->GetActorNameOrLabel());
+
+    return Result;
 }
 
 void UPlayerGameplayAbility::OnGiveAbility(

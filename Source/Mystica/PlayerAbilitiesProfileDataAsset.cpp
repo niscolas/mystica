@@ -10,9 +10,6 @@ void UPlayerAbilitiesProfileDataAsset::GiveAllTo(
     UAbilitySystemComponent *InAbilitySystemComponent, int8 ApplyLevel) {
     MYSTICA_RETURN_IF(!InAbilitySystemComponent);
 
-    UMysticaAbilitySystemFunctionLibrary::ApplyEffectsToAbilitySystemComponent(
-        InAbilitySystemComponent, StartUpEffects, ApplyLevel);
-
     FGameplayAbilitiesArray *FoundOnGivenAbilities =
         CommonAbilities.Find(EAbilityActivationSituation::OnGiven);
     if (FoundOnGivenAbilities) {
@@ -32,4 +29,7 @@ void UPlayerAbilitiesProfileDataAsset::GiveAllTo(
     UMysticaAbilitySystemFunctionLibrary::GiveGameplayTagBasedAbilitiesTo(
         InAbilitySystemComponent, GameplayTagBasedAbilities, ApplyLevel,
         SpecHandles);
+
+    UMysticaAbilitySystemFunctionLibrary::ApplyEffectsToAbilitySystemComponent(
+        InAbilitySystemComponent, StartUpEffects, ApplyLevel);
 }

@@ -47,6 +47,8 @@ void UMysticaAttributeSet::PostGameplayEffectExecute(
         *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
 
     if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute()) {
+        UE_LOG(LogTemp, Warning, TEXT("Health: %f"), GetCurrentHealth());
+
         SetCurrentHealth(FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth()));
 
         BroadcastHealthPercentageChanged(PawnUIComponent);

@@ -91,7 +91,7 @@ private:
               BlueprintReadOnly,
               Category = "UI",
               meta = (AllowPrivateAccess))
-    UPlayerUIComponent *UIComponent;
+    UPlayerUIComponent *UIComponent2;
 
     virtual void SetupPlayerInputComponent(
         class UInputComponent *PlayerInputComponent) override;

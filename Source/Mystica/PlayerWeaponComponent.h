@@ -11,6 +11,7 @@
 class UShapeComponent;
 class UGameplayAbility;
 class UInputMappingContext;
+class UTexture2D;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 
@@ -63,6 +64,12 @@ private:
               Category = "Combat",
               meta = (AllowPrivateAccess))
     FScalableFloat BaseDamage;
+
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadWrite,
+              Category = "Combat",
+              meta = (AllowPrivateAccess))
+    TSoftObjectPtr<UTexture2D> SoftIconTexture;
 
     UPROPERTY(VisibleAnywhere,
               BlueprintReadWrite,

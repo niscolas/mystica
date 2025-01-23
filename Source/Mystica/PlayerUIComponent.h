@@ -5,7 +5,12 @@
 #include "CoreMinimal.h"
 #include "PawnUI.h"
 #include "PawnUIComponent.h"
+#include "UObject/SoftObjectPtr.h"
 #include "PlayerUIComponent.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEquippedWeaponChangedDelegate,
+                                            TSoftObjectPtr<UTexture2D>,
+                                            SoftIconTexture);
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 
@@ -24,4 +29,10 @@ private:
 
     UPROPERTY(BlueprintAssignable, Category = "UI", meta = (AllowPrivateAccess))
     FPercentageChanged RagePercentageChanged;
+
+    UPROPERTY(BlueprintCallable,
+              BlueprintAssignable,
+              Category = "UI",
+              meta = (AllowPrivateAccess))
+    FEquippedWeaponChangedDelegate EquippedWeaponChanged;
 };

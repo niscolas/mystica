@@ -42,7 +42,7 @@ private:
               BlueprintReadWrite,
               Category = "AI",
               meta = (AllowPrivateAccess,
-                      EditCondition = "ShouldEnableDetourCrowdAvoidance", ))
+                      EditCondition = "ShouldEnableDetourCrowdAvoidance"))
     float DetourCrowdAvoidanceQueryRange = 600.f;
 
     UPROPERTY(VisibleAnywhere,

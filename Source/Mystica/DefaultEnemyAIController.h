@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AIController.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "CoreMinimal.h"
 #include "DefaultEnemyAIController.generated.h"
 
@@ -15,6 +16,9 @@ class MYSTICA_API ADefaultEnemyAIController : public AAIController {
 
 public:
     ADefaultEnemyAIController(const FObjectInitializer &ObjectInitializer);
+
+    virtual ETeamAttitude::Type
+    GetTeamAttitudeTowards(const AActor &Other) const override;
 
 private:
     UPROPERTY(VisibleAnywhere,

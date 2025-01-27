@@ -21,6 +21,30 @@ public:
     GetTeamAttitudeTowards(const AActor &Other) const override;
 
 private:
+    virtual void BeginPlay() override;
+
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadWrite,
+              Category = "AI",
+              meta = (AllowPrivateAccess))
+    bool ShouldEnableDetourCrowdAvoidance = true;
+
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadWrite,
+              Category = "AI",
+              meta = (AllowPrivateAccess,
+                      EditCondition = "ShouldEnableDetourCrowdAvoidance",
+                      UIMin = "1",
+                      UIMax = "1"))
+    int32 DetourCrowdAvoidanceQuality = 4;
+
+    UPROPERTY(EditDefaultsOnly,
+              BlueprintReadWrite,
+              Category = "AI",
+              meta = (AllowPrivateAccess,
+                      EditCondition = "ShouldEnableDetourCrowdAvoidance", ))
+    float DetourCrowdAvoidanceQueryRange = 600.f;
+
     UPROPERTY(VisibleAnywhere,
               BlueprintReadOnly,
               Category = "AI",

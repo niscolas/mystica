@@ -34,6 +34,43 @@ ADefaultEnemyAIController::ADefaultEnemyAIController(
     SetGenericTeamId(FGenericTeamId(1));
 }
 
+void ADefaultEnemyAIController::BeginPlay() {
+    Super::BeginPlay();
+    UCrowdFollowingComponent *CrowdFollowingComponent =
+        Cast<UCrowdFollowingComponent>(GetPathFollowingComponent());
+
+    MYSTICA_LOG_AND_RETURN_IF(!CrowdFollowingComponent, LogTemp, Warning,
+                              TEXT("Will not proceed on BeginPlay, "
+                                   "invalid CrowdFollowingComponent"));
+
+    CrowdFollowingComponent->SetCrowdSimulationState(
+        ShouldEnableDetourCrowdAvoidance ? ECrowdSimulationState::Enabled
+                                         : ECrowdSimulationState::Disabled);
+
+    ECrowdAvoidanceQuality::Type DetourCrowdAvoidanceQualityType;
+    switch (DetourCrowdAvoidanceQuality) {
+    case 1:
+        DetourCrowdAvoidanceQualityType = ECrowdAvoidanceQuality::Low;
+        break;
+    case 2:
+        DetourCrowdAvoidanceQualityType = ECrowdAvoidanceQuality::Medium;
+        break;
+    case 3:
+        DetourCrowdAvoidanceQualityType = ECrowdAvoidanceQuality::Good;
+        break;
+    case 4:
+        DetourCrowdAvoidanceQualityType = ECrowdAvoidanceQuality::High;
+        break;
+    }
+    CrowdFollowingComponent->SetCrowdAvoidanceQuality(
+        DetourCrowdAvoidanceQualityType);
+
+    CrowdFollowingComponent->SetAvoidanceGroup(1);
+    CrowdFollowingComponent->SetGroupsToAvoid(1);
+    CrowdFollowingComponent->SetCrowdCollisionQueryRange(
+        DetourCrowdAvoidanceQueryRange);
+}
+
 void ADefaultEnemyAIController::OnPerceptionUpdated(AActor *Actor,
                                                     FAIStimulus Stimulus) {
     MYSTICA_RETURN_IF(!Stimulus.WasSuccessfullySensed() || !Actor);

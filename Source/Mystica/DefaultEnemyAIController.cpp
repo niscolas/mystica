@@ -76,9 +76,12 @@ void ADefaultEnemyAIController::OnPerceptionUpdated(AActor *Actor,
     MYSTICA_RETURN_IF(!Stimulus.WasSuccessfullySensed() || !Actor);
 
     UBlackboardComponent *BlackboardComponent = GetBlackboardComponent();
-    MYSTICA_LOG_AND_RETURN_IF(!BlackboardComponent, LogTemp, Warning,
-                              TEXT("Will not proceed on OnPerceptionUpdated, "
-                                   "invalid BlackboardComponent"));
+    MYSTICA_LOG_AND_RETURN_IF(
+        !BlackboardComponent ||
+            BlackboardComponent->GetValueAsObject(FName("TargetActor")),
+        LogTemp, Warning,
+        TEXT("Will not proceed on OnPerceptionUpdated, "
+             "invalid BlackboardComponent or already has TargetActor set"));
 
     BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
 }
@@ -90,7 +93,7 @@ ADefaultEnemyAIController::GetTeamAttitudeTowards(const AActor &Other) const {
         Cast<const IGenericTeamAgentInterface>(OtherPawn->GetController());
 
     if (!OtherTeamAgent ||
-        OtherTeamAgent->GetGenericTeamId() != GetGenericTeamId()) {
+        OtherTeamAgent->GetGenericTeamId() < GetGenericTeamId()) {
         return ETeamAttitude::Hostile;
     }
 

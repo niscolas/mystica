@@ -2,6 +2,8 @@
 #include "GameFramework/Character.h"
 #include "HelperMacros.h"
 #include "KenneyCharacterAnimInstance.h"
+#include "KismetAnimationLibrary.h"
+#include "Mystica/MysticaAbilitySystemFunctionLibrary.h"
 
 void UDefaultEnemyAnimInstance::NativeInitializeAnimation() {
     Super::NativeInitializeAnimation();
@@ -24,4 +26,15 @@ void UDefaultEnemyAnimInstance::NativeThreadSafeUpdateAnimation(
         CharacterMovementComponent);
     HasAcceleration = UKenneyCharacterAnimInstance::CheckHasAcceleration(
         CharacterMovementComponent);
+    LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(
+        OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
+}
+
+bool UDefaultEnemyAnimInstance::CheckDoesOwnerHaveTag(
+    FGameplayTag InTag) const {
+    APawn *OwningPawn = TryGetPawnOwner();
+    MYSTICA_RETURN_VALUE_IF(!OwningPawn, false);
+
+    return UMysticaAbilitySystemFunctionLibrary::NativeCheckDoesActorHaveTag(
+        OwningPawn, InTag);
 }

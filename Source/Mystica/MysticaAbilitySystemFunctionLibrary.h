@@ -64,6 +64,9 @@ public:
         int8 ApplyLevel,
         TArray<FGameplayAbilitySpecHandle> &OutSpecHandles);
 
+    static bool NativeCheckDoesActorHaveTag(AActor *InActor,
+                                            FGameplayTag InTag);
+
     static UAbilitySystemComponent *
     NativeGetAbilitySystemComponentFromActor(AActor *InActor);
 

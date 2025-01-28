@@ -15,6 +15,7 @@ public class Mystica : ModuleRules
 				"GameplayTags",
 				"GameplayTasks",
 				"FunctionalTesting",
-				"UMG"});
+				"UMG",
+				"AnimGraphRuntime"});
 	}
 }

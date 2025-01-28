@@ -45,6 +45,12 @@ private:
               meta = (AllowPrivateAccess))
     float GroundSpeed;
 
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "Movement",
+              meta = (AllowPrivateAccess))
+    float LocomotionDirection;
+
     UPROPERTY(EditDefaultsOnly,
               BlueprintReadOnly,
               Category = "Deep Idle",

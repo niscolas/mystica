@@ -3,6 +3,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HelperMacros.h"
+#include "KismetAnimationLibrary.h"
 
 void UKenneyCharacterAnimInstance::NativeInitializeAnimation() {
     Super::NativeInitializeAnimation();
@@ -24,6 +25,8 @@ void UKenneyCharacterAnimInstance::NativeThreadSafeUpdateAnimation(
 
     GroundSpeed = ComputeGroundSpeed(CharacterMovementComponent);
     HasAcceleration = CheckHasAcceleration(CharacterMovementComponent);
+    LocomotionDirection = UKismetAnimationLibrary::CalculateDirection(
+        OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
 
     if (HasAcceleration) {
         IdleElapsedTime = 0.0f;

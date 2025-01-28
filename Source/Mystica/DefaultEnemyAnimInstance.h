@@ -2,6 +2,7 @@
 
 #include "Animation/AnimInstance.h"
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "DefaultEnemyAnimInstance.generated.h"
 
 class UCharacterMovementComponent;
@@ -36,4 +37,13 @@ private:
               Category = "Movement",
               meta = (AllowPrivateAccess))
     float GroundSpeed;
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "Movement",
+              meta = (AllowPrivateAccess))
+    float LocomotionDirection;
+
+    UFUNCTION(BlueprintPure, meta = (BlueprintThreadSafe))
+    bool CheckDoesOwnerHaveTag(FGameplayTag InTag) const;
 };

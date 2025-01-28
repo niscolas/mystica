@@ -92,12 +92,17 @@ void UMysticaAbilitySystemFunctionLibrary::RemoveGameplayTagFromActor(
     AbilitySystemComponent->RemoveLooseGameplayTag(InTag);
 }
 
-bool UMysticaAbilitySystemFunctionLibrary::BranchOnDoesActorHaveTag(
+bool UMysticaAbilitySystemFunctionLibrary::NativeCheckDoesActorHaveTag(
     AActor *InActor, FGameplayTag InTag) {
     UAbilitySystemComponent *AbilitySystemComponent =
         NativeGetAbilitySystemComponentFromActor(InActor);
 
     return AbilitySystemComponent->HasMatchingGameplayTag(InTag);
+}
+
+bool UMysticaAbilitySystemFunctionLibrary::BranchOnDoesActorHaveTag(
+    AActor *InActor, FGameplayTag InTag) {
+    return NativeCheckDoesActorHaveTag(InActor, InTag);
 }
 
 bool UMysticaAbilitySystemFunctionLibrary::

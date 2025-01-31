@@ -1,6 +1,7 @@
 #include "MysticaAbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "HelperMacros.h"
+#include "Internationalization/LocalizedTextSourceTypes.h"
 #include "MysticaAbilitySystemFunctionLibrary.h"
 
 void UMysticaAbilitySystemComponent::OnAbilityInputStarted(
@@ -42,4 +43,32 @@ void UMysticaAbilitySystemComponent::RemoveWeaponAbilities(
     }
 
     InSpecHandles.Empty();
+}
+
+bool UMysticaAbilitySystemComponent::TryActivateAbilityByTag(
+    FGameplayTag InTag) {
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !InTag.IsValid(), LogTemp, Error, false,
+        TEXT("Will not try to Activate Ability, invalid InTag"));
+
+    TArray<FGameplayAbilitySpec *> FoundAbilitySpecs;
+    GetActivatableGameplayAbilitySpecsByAllMatchingTags(
+        InTag.GetSingleTagContainer(), FoundAbilitySpecs);
+
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        FoundAbilitySpecs.IsEmpty(), LogTemp, Error, false,
+        TEXT("Will not try to Activate Ability, no matching Ability Specs"));
+
+    const int32 RandomAbilitySpecIndex =
+        FMath::RandRange(0, FoundAbilitySpecs.Num() - 1);
+
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !FoundAbilitySpecs[RandomAbilitySpecIndex] ||
+            FoundAbilitySpecs[RandomAbilitySpecIndex]->IsActive(),
+        LogTemp, Error, false,
+        TEXT("Will not try to Activate Ability, given Spec is invalid or is "
+             "already active"));
+
+    return TryActivateAbility(
+        FoundAbilitySpecs[RandomAbilitySpecIndex]->Handle);
 }

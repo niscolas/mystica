@@ -1,4 +1,5 @@
 #include "MysticaMiscFunctionLibrary.h"
+#include "GenericTeamAgentInterface.h"
 #include "Mystica/CombatComponent.h"
 #include "Mystica/CombatPawn.h"
 #include "Mystica/HelperMacros.h"
@@ -36,4 +37,25 @@ UMysticaMiscFunctionLibrary::GetWeaponComponentFromActor(
         TEXT("GetWeaponComponent() returned nullptr"));
 
     return Result;
+}
+
+bool UMysticaMiscFunctionLibrary::CheckIsPawnHostile(APawn *SourcePawn,
+                                                     APawn *TargetPawn) {
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !SourcePawn || !TargetPawn, LogTemp, Warning, false,
+        TEXT("Will not proceed in CheckIsPawnHostile, invalid inputs"));
+
+    IGenericTeamAgentInterface *SourceTeamAgent =
+        Cast<IGenericTeamAgentInterface>(SourcePawn->GetController());
+    IGenericTeamAgentInterface *TargetTeamAgent =
+        Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !SourceTeamAgent || !TargetTeamAgent, LogTemp, Warning, false,
+        TEXT("Will not proceed in CheckIsPawnHostile, invalid Team Agents (%s "
+             "or %s)"),
+        *SourcePawn->GetName(), *TargetPawn->GetName());
+
+    return SourceTeamAgent->GetGenericTeamId() !=
+           TargetTeamAgent->GetGenericTeamId();
 }

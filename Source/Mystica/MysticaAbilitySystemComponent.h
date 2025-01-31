@@ -29,4 +29,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Ability System")
     void RemoveWeaponAbilities(
         UPARAM(ref) TArray<FGameplayAbilitySpecHandle> &InSpecHandles);
+
+    UFUNCTION(BlueprintCallable, Category = "Ability System")
+    bool TryActivateAbilityByTag(FGameplayTag InTag);
 };

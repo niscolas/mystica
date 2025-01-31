@@ -21,4 +21,7 @@ public:
     UFUNCTION(BlueprintPure, Category = "Combat|Function Library")
     static TScriptInterface<IWeaponComponent>
     GetWeaponComponentFromActor(AActor *InWeaponActor);
+
+    UFUNCTION(BlueprintPure, Category = "Combat|Function Library")
+    static bool CheckIsPawnHostile(APawn *SourcePawn, APawn *TargetPawn);
 };

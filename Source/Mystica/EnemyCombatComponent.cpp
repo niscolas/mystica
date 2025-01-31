@@ -13,6 +13,11 @@ void UEnemyCombatComponent::RegisterWeapon_Implementation(
     const TScriptInterface<IWeaponComponent> &InWeaponComponent,
     bool ShouldEquip) {
     WeaponInventory.RegisterWeapon(InTag, InWeaponComponent, ShouldEquip);
+
+    InWeaponComponent->GetBeginHitOtherPawnDelegate().AddUObject(
+        this, &ThisClass::OnBeginHitOtherPawn);
+    InWeaponComponent->GetEndHitOtherPawnDelegate().AddUObject(
+        this, &ThisClass::OnEndHitOtherPawn);
 }
 
 void UEnemyCombatComponent::EquipWeapon_Implementation(FGameplayTag InTag) {
@@ -32,4 +37,14 @@ UEnemyCombatComponent::GetEquippedWeapon_Implementation() const {
 FGameplayTag
 UEnemyCombatComponent::GetEquippedWeaponTag_Implementation() const {
     return WeaponInventory.GetEquippedWeaponTag();
+}
+
+void UEnemyCombatComponent::OnBeginHitOtherPawn(APawn *OtherPawn) {
+    UE_LOG(LogTemp, Warning, TEXT("OnBeginHitOtherPawn: %s %s"),
+           *GetOwner()->GetActorNameOrLabel(), *OtherPawn->GetName());
+}
+
+void UEnemyCombatComponent::OnEndHitOtherPawn(APawn *OtherPawn) {
+    UE_LOG(LogTemp, Warning, TEXT("OnEndHitOtherPawn: %s"),
+           *OtherPawn->GetName());
 }

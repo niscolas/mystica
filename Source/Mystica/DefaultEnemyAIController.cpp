@@ -76,12 +76,9 @@ void ADefaultEnemyAIController::OnPerceptionUpdated(AActor *Actor,
     MYSTICA_RETURN_IF(!Stimulus.WasSuccessfullySensed() || !Actor);
 
     UBlackboardComponent *BlackboardComponent = GetBlackboardComponent();
-    MYSTICA_LOG_AND_RETURN_IF(
+    MYSTICA_RETURN_IF(
         !BlackboardComponent ||
-            BlackboardComponent->GetValueAsObject(FName("TargetActor")),
-        LogTemp, Warning,
-        TEXT("Will not proceed on OnPerceptionUpdated, "
-             "invalid BlackboardComponent or already has TargetActor set"));
+        BlackboardComponent->GetValueAsObject(FName("TargetActor")));
 
     BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor);
 }

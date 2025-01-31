@@ -41,4 +41,7 @@ private:
     FDefaultWeaponInventory WeaponInventory;
 
     virtual void BeginPlay() override;
+
+    void OnBeginHitOtherPawn(APawn *OtherPawn);
+    void OnEndHitOtherPawn(APawn *OtherPawn);
 };

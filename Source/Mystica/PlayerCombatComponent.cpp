@@ -12,6 +12,7 @@
 
 UPlayerCombatComponent::UPlayerCombatComponent() {
     PrimaryComponentTick.bCanEverTick = false;
+    WeaponInventory = FDefaultWeaponInventory(GetOwner());
 }
 
 void UPlayerCombatComponent::BeginPlay() {
@@ -66,31 +67,13 @@ UPlayerCombatComponent::GetEquippedWeaponTag_Implementation() const {
 
 void UPlayerCombatComponent::SetWeaponCollisionState_Implementation(
     bool SetActive) {
-    UPlayerWeaponComponent *FoundWeapon = GetEquippedPlayerWeaponComponent();
-
-    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, FoundWeapon);
-
-    UShapeComponent *CollisionComponent = FoundWeapon->GetCollisionComponent();
-    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, CollisionComponent);
-
-    ECollisionEnabled::Type NewCollisionEnabledType;
-    if (SetActive) {
-        NewCollisionEnabledType = ECollisionEnabled::QueryOnly;
-    } else {
-        NewCollisionEnabledType = ECollisionEnabled::NoCollision;
-    }
-
-    CollisionComponent->SetCollisionEnabled(NewCollisionEnabledType);
-    PawnsOverlappedByHit.Empty();
+    WeaponInventory.SetEquippedWeaponCollisionState(SetActive);
 }
 
 void UPlayerCombatComponent::OnBeginHitOtherPawn(APawn *OtherPawn) {
-    MYSTICA_RETURN_IF(PawnsOverlappedByHit.Contains(OtherPawn));
-
-    UE_LOG(LogTemp, Warning, TEXT("OnBeginHitOtherPawn: %s %s"),
-           *GetOwner()->GetActorNameOrLabel(), *OtherPawn->GetName());
-
-    PawnsOverlappedByHit.AddUnique(OtherPawn);
+    if (!WeaponInventory.CommonOnBeginHitOtherPawn(OtherPawn)) {
+        return;
+    }
 
     FGameplayEventData GameplayEventData;
     GameplayEventData.Instigator = GetOwner();

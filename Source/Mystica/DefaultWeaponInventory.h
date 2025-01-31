@@ -8,6 +8,9 @@ class UWeaponComponent;
 
 class MYSTICA_API FDefaultWeaponInventory {
 public:
+    FDefaultWeaponInventory() = default;
+    FDefaultWeaponInventory(AActor *InOwner);
+
     void
     RegisterWeapon(FGameplayTag InTag,
                    const TScriptInterface<IWeaponComponent> &InWeaponComponent,
@@ -17,8 +20,13 @@ public:
     TScriptInterface<IWeaponComponent> GetEquippedWeapon() const;
     FGameplayTag GetEquippedWeaponTag() const;
     bool CheckHasWeapon(FGameplayTag InTag) const;
+    void SetEquippedWeaponCollisionState(bool SetActive);
+    TArray<APawn *> GetPawnsOverlappedByHit() const;
+    bool CommonOnBeginHitOtherPawn(APawn *OtherPawn);
 
 private:
     FGameplayTag EquippedWeaponTag;
     TMap<FGameplayTag, TScriptInterface<IWeaponComponent>> WeaponsMap;
+    TArray<APawn *> PawnsOverlappedByHit;
+    AActor *Owner;
 };

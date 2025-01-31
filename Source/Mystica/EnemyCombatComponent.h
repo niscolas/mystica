@@ -37,6 +37,10 @@ public:
     UFUNCTION(BlueprintPure, Category = "Combat")
     virtual FGameplayTag GetEquippedWeaponTag_Implementation() const override;
 
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    virtual void
+    SetWeaponCollisionState_Implementation(bool SetActive) override;
+
 private:
     FDefaultWeaponInventory WeaponInventory;
 

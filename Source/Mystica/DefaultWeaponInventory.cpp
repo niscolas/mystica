@@ -1,9 +1,14 @@
 #include "DefaultWeaponInventory.h"
+#include "Components/ShapeComponent.h"
 #include "GenericPlatform/GenericPlatformMisc.h"
 #include "HelperMacros.h"
 #include "Logging/LogVerbosity.h"
 #include "Mystica/WeaponComponent.h"
 #include "UObject/ScriptInterface.h"
+
+FDefaultWeaponInventory::FDefaultWeaponInventory(AActor *InOwner) {
+    Owner = InOwner;
+}
 
 void FDefaultWeaponInventory::RegisterWeapon(
     FGameplayTag InTag,
@@ -55,4 +60,38 @@ FGameplayTag FDefaultWeaponInventory::GetEquippedWeaponTag() const {
 
 bool FDefaultWeaponInventory::CheckHasWeapon(FGameplayTag InTag) const {
     return GetWeaponByTag(InTag) != nullptr;
+}
+
+void FDefaultWeaponInventory::SetEquippedWeaponCollisionState(bool SetActive) {
+    TScriptInterface<IWeaponComponent> FoundWeapon = GetEquippedWeapon();
+
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, FoundWeapon);
+
+    UShapeComponent *CollisionComponent = FoundWeapon->GetCollisionComponent();
+    MYSTICA_IF_NULL_LOG_AND_RETURN(LogTemp, Warning, CollisionComponent);
+
+    ECollisionEnabled::Type NewCollisionEnabledType;
+    if (SetActive) {
+        NewCollisionEnabledType = ECollisionEnabled::QueryOnly;
+    } else {
+        NewCollisionEnabledType = ECollisionEnabled::NoCollision;
+    }
+
+    CollisionComponent->SetCollisionEnabled(NewCollisionEnabledType);
+    PawnsOverlappedByHit.Empty();
+}
+
+TArray<APawn *> FDefaultWeaponInventory::GetPawnsOverlappedByHit() const {
+    return PawnsOverlappedByHit;
+}
+
+bool FDefaultWeaponInventory::CommonOnBeginHitOtherPawn(APawn *OtherPawn) {
+    MYSTICA_RETURN_VALUE_IF(PawnsOverlappedByHit.Contains(OtherPawn), false);
+
+    UE_LOG(LogTemp, Warning, TEXT("OnBeginHitOtherPawn: %s %s"),
+           *Owner->GetActorNameOrLabel(), *OtherPawn->GetName());
+
+    PawnsOverlappedByHit.AddUnique(OtherPawn);
+
+    return true;
 }

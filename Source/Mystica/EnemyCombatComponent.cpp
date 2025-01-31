@@ -1,7 +1,11 @@
 #include "EnemyCombatComponent.h"
+#include "Abilities/GameplayAbilityTypes.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "Mystica/MysticaGameplayTags.h"
 
 UEnemyCombatComponent::UEnemyCombatComponent() {
     PrimaryComponentTick.bCanEverTick = false;
+    WeaponInventory = FDefaultWeaponInventory(GetOwner());
 }
 
 void UEnemyCombatComponent::BeginPlay() {
@@ -39,12 +43,34 @@ UEnemyCombatComponent::GetEquippedWeaponTag_Implementation() const {
     return WeaponInventory.GetEquippedWeaponTag();
 }
 
+void UEnemyCombatComponent::SetWeaponCollisionState_Implementation(
+    bool SetActive) {
+    WeaponInventory.SetEquippedWeaponCollisionState(SetActive);
+}
+
 void UEnemyCombatComponent::OnBeginHitOtherPawn(APawn *OtherPawn) {
-    UE_LOG(LogTemp, Warning, TEXT("OnBeginHitOtherPawn: %s %s"),
-           *GetOwner()->GetActorNameOrLabel(), *OtherPawn->GetName());
+    if (!WeaponInventory.CommonOnBeginHitOtherPawn(OtherPawn)) {
+        return;
+    }
+
+    bool IsValidBlock = false;
+    const bool IsPlayerBlocking = false;
+    const bool IsMyAttackUnblockable = false;
+
+    if (IsPlayerBlocking && !IsMyAttackUnblockable) {
+        IsValidBlock = true;
+    }
+
+    FGameplayEventData EventData;
+    EventData.Instigator = GetOwner();
+    EventData.Target = OtherPawn;
+
+    if (IsValidBlock) {
+    } else {
+        UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+            GetOwner(), MysticaGameplayTags::Shared_Event_MeleeHit, EventData);
+    }
 }
 
 void UEnemyCombatComponent::OnEndHitOtherPawn(APawn *OtherPawn) {
-    UE_LOG(LogTemp, Warning, TEXT("OnEndHitOtherPawn: %s"),
-           *OtherPawn->GetName());
 }

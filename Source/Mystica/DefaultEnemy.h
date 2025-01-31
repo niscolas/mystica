@@ -16,6 +16,7 @@ class UMysticaAbilitySystemComponent;
 class IPawnUIComponent;
 class UEnemyUIComponent;
 class UWidgetComponent;
+class UMotionWarpingComponent;
 
 UCLASS()
 
@@ -65,6 +66,12 @@ private:
               Category = "UI",
               meta = (AllowPrivateAccess))
     UEnemyUIComponent *UIComponent;
+
+    UPROPERTY(VisibleAnywhere,
+              BlueprintReadOnly,
+              Category = "UI",
+              meta = (AllowPrivateAccess))
+    UMotionWarpingComponent *MotionWarpingComponent;
 
 protected:
     UPROPERTY(VisibleAnywhere,

@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "HelperMacros.h"
+#include "MotionWarpingComponent.h"
 #include "Mystica/EnemyUIWidget.h"
 #include "Mystica/MysticaAbilitySystemComponent.h"
 #include "MysticaAttributeSet.h"
@@ -42,6 +43,9 @@ ADefaultEnemy::ADefaultEnemy() {
     HealthBarWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(
         TEXT("HealthBarWidgetComponent"));
     HealthBarWidgetComponent->SetupAttachment(GetMesh());
+
+    MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(
+        TEXT("MotionWarpingComponent"));
 }
 
 UCombatComponent *ADefaultEnemy::GetCombatComponent() const {

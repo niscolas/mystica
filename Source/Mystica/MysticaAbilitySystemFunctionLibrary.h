@@ -33,6 +33,10 @@ public:
               meta = (ExpandBoolAsExecs = "ReturnValue"))
     static bool BranchOnDoesActorHaveTag(AActor *InActor, FGameplayTag InTag);
 
+    UFUNCTION(BlueprintPure,
+              Category = "Ability System|Mystica Function Library")
+    static bool CheckDoesActorHaveTag(AActor *InActor, FGameplayTag InTag);
+
     UFUNCTION(BlueprintCallable,
               Category = "Ability System|Mystica Function Library")
     static bool CheckDoesHaveGivenActivatableAbilityClass(

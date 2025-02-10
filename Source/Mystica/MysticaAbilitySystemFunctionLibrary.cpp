@@ -105,6 +105,11 @@ bool UMysticaAbilitySystemFunctionLibrary::BranchOnDoesActorHaveTag(
     return NativeCheckDoesActorHaveTag(InActor, InTag);
 }
 
+bool UMysticaAbilitySystemFunctionLibrary::CheckDoesActorHaveTag(
+    AActor *InActor, FGameplayTag InTag) {
+    return NativeCheckDoesActorHaveTag(InActor, InTag);
+}
+
 bool UMysticaAbilitySystemFunctionLibrary::
     CheckDoesHaveGivenActivatableAbilityClass(
         UAbilitySystemComponent *InAbilitySystemComponent,

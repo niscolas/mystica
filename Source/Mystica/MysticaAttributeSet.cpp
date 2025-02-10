@@ -4,6 +4,7 @@
 #include "GameplayEffectExtension.h"
 #include "HelperMacros.h"
 #include "Mystica/HelperMacros.h"
+#include "Mystica/MysticaAbilitySystemFunctionLibrary.h"
 #include "Mystica/MysticaGameplayTags.h"
 #include "Mystica/PawnUI.h"
 #include "Mystica/PawnUIComponent.h"
@@ -76,6 +77,10 @@ void UMysticaAttributeSet::PostGameplayEffectExecute(
             UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
                 GetOwningActor(), MysticaGameplayTags::Shared_Event_Death,
                 FGameplayEventData());
+
+            UMysticaAbilitySystemFunctionLibrary::AddGameplayTagToActor(
+                Data.Target.GetAvatarActor(),
+                MysticaGameplayTags::Shared_Status_Dead);
         }
     }
 }

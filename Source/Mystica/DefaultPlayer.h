@@ -19,6 +19,7 @@ class UInputAction;
 class UInputConfigDataAsset;
 struct FInputActionValue;
 class IPawnUIComponent;
+class UMotionWarpingComponent;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -92,6 +93,9 @@ private:
               Category = "UI",
               meta = (AllowPrivateAccess))
     UPlayerUIComponent *UIComponent2;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess))
+    UMotionWarpingComponent *MotionWarpingComponent;
 
     virtual void SetupPlayerInputComponent(
         class UInputComponent *PlayerInputComponent) override;

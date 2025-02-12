@@ -10,6 +10,7 @@
 #include "HelperMacros.h"
 #include "InputActionValue.h"
 #include "InputConfigDataAsset.h"
+#include "MotionWarpingComponent.h"
 #include "Mystica/CombatComponent.h"
 #include "Mystica/MysticaGameplayTags.h"
 #include "MysticaAbilitySystemComponent.h"
@@ -60,6 +61,9 @@ ADefaultPlayer::ADefaultPlayer() {
 
     UIComponent2 =
         CreateDefaultSubobject<UPlayerUIComponent>(TEXT("PlayerUIComponent2"));
+
+    MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(
+        TEXT("MotionWarpingComponent"));
 }
 
 UCombatComponent *ADefaultPlayer::GetCombatComponent() const {

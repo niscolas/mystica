@@ -24,4 +24,8 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "Combat|Function Library")
     static bool CheckIsPawnHostile(APawn *SourcePawn, APawn *TargetPawn);
+
+    UFUNCTION(BlueprintPure, Category = "Math|Function Library")
+    static float ComputeAngleDifference(AActor *OriginActor,
+                                        AActor *TargetActor);
 };

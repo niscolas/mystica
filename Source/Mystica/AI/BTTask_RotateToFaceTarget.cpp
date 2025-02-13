@@ -5,6 +5,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BlackboardData.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Mystica/MysticaMiscFunctionLibrary.h"
 
 UBTTask_RotateToFaceTarget::UBTTask_RotateToFaceTarget() {
     NodeName = TEXT("Native Rotate To Face Target Actor");
@@ -92,14 +93,9 @@ void UBTTask_RotateToFaceTarget::TickTask(UBehaviorTreeComponent &OwnerComp,
 
 bool UBTTask_RotateToFaceTarget::HasReachedAnglePrecision(
     APawn *QueryPawn, AActor *TargetActor) const {
-    const FVector OwnerForward = QueryPawn->GetActorForwardVector();
-    const FVector OwnerToTargetNormalized =
-        (TargetActor->GetActorLocation() - QueryPawn->GetActorLocation())
-            .GetSafeNormal();
-
-    const float DotResult =
-        FVector::DotProduct(OwnerForward, OwnerToTargetNormalized);
-    const float AngleDifference = UKismetMathLibrary::DegAcos(DotResult);
+    const float AngleDifference =
+        UMysticaMiscFunctionLibrary::ComputeAngleDifference(QueryPawn,
+                                                            TargetActor);
 
     return AngleDifference <= AnglePrecision;
 }

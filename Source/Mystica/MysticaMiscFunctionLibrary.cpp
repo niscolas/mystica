@@ -1,5 +1,6 @@
 #include "MysticaMiscFunctionLibrary.h"
 #include "GenericTeamAgentInterface.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Mystica/CombatComponent.h"
 #include "Mystica/CombatPawn.h"
 #include "Mystica/HelperMacros.h"
@@ -58,4 +59,17 @@ bool UMysticaMiscFunctionLibrary::CheckIsPawnHostile(APawn *SourcePawn,
 
     return SourceTeamAgent->GetGenericTeamId() !=
            TargetTeamAgent->GetGenericTeamId();
+}
+
+float ComputeAngleDifference(AActor *OriginActor, AActor *TargetActor) {
+    const FVector OriginActorForward = OriginActor->GetActorForwardVector();
+    const FVector OriginToTargetNormalized =
+        (TargetActor->GetActorLocation() - OriginActor->GetActorLocation())
+            .GetSafeNormal();
+
+    const float DotResult =
+        FVector::DotProduct(OriginActorForward, OriginToTargetNormalized);
+    const float AngleDifference = UKismetMathLibrary::DegAcos(DotResult);
+
+    return AngleDifference;
 }

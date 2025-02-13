@@ -2,6 +2,7 @@
 #include "GameplayTagContainer.h"
 #include "HelperMacros.h"
 #include "Internationalization/LocalizedTextSourceTypes.h"
+#include "Mystica/MysticaGameplayTags.h"
 #include "MysticaAbilitySystemFunctionLibrary.h"
 
 void UMysticaAbilitySystemComponent::OnAbilityInputStarted(
@@ -19,6 +20,15 @@ void UMysticaAbilitySystemComponent::OnAbilityInputStarted(
 
 void UMysticaAbilitySystemComponent::OnAbilityInputCompleted(
     const FGameplayTag &InInputTag) {
+    MYSTICA_RETURN_IF(!InInputTag.IsValid() ||
+                      !InInputTag.MatchesTag(MysticaGameplayTags::Input_Hold));
+
+    for (const FGameplayAbilitySpec &Spec : GetActivatableAbilities()) {
+        MYSTICA_CONTINUE_IF(!Spec.DynamicAbilityTags.HasTagExact(InInputTag) ||
+                            !Spec.IsActive());
+
+        CancelAbilityHandle(Spec.Handle);
+    }
 }
 
 void UMysticaAbilitySystemComponent::GrantWeaponAbilities(

@@ -61,7 +61,8 @@ bool UMysticaMiscFunctionLibrary::CheckIsPawnHostile(APawn *SourcePawn,
            TargetTeamAgent->GetGenericTeamId();
 }
 
-float ComputeAngleDifference(AActor *OriginActor, AActor *TargetActor) {
+float UMysticaMiscFunctionLibrary::ComputeAngleDifference(AActor *OriginActor,
+                                                          AActor *TargetActor) {
     const FVector OriginActorForward = OriginActor->GetActorForwardVector();
     const FVector OriginToTargetNormalized =
         (TargetActor->GetActorLocation() - OriginActor->GetActorLocation())

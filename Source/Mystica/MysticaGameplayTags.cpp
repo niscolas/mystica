@@ -8,6 +8,8 @@ UE_DEFINE_GAMEPLAY_TAG(Input_Unequip_Sword, "Input.Unequip.Sword");
 UE_DEFINE_GAMEPLAY_TAG(Input_LightAttack_Sword, "Input.LightAttack.Sword");
 UE_DEFINE_GAMEPLAY_TAG(Input_HeavyAttack_Sword, "Input.HeavyAttack.Sword");
 UE_DEFINE_GAMEPLAY_TAG(Input_Roll, "Input.Roll");
+UE_DEFINE_GAMEPLAY_TAG(Input_Hold, "Input.Hold");
+UE_DEFINE_GAMEPLAY_TAG(Input_Hold_Block, "Input.Hold.Block");
 
 UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Sword,
                        "Player.Ability.Equip.Sword");
@@ -21,6 +23,7 @@ UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Heavy_Sword,
 
 UE_DEFINE_GAMEPLAY_TAG(Player_Ability_HitPause, "Player.Ability.HitPause");
 UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Roll, "Player.Ability.Roll");
+UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Block, "Player.Ability.Block");
 
 UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Sword, "Player.Weapon.Sword");
 
@@ -33,6 +36,7 @@ UE_DEFINE_GAMEPLAY_TAG(Player_Effect_HeavyAttackFinisherReady_Sword,
                        "Player.Effect.HeavyAttackFinisherReady.Sword");
 
 UE_DEFINE_GAMEPLAY_TAG(Player_Status_Rolling, "Player.Status.Rolling");
+UE_DEFINE_GAMEPLAY_TAG(Player_Status_Blocking, "Player.Status.Blocking");
 
 UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Light,
                        "Player.SetByCaller.AttackType.Light");

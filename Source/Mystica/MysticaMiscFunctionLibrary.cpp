@@ -74,3 +74,16 @@ float UMysticaMiscFunctionLibrary::ComputeAngleDifference(AActor *OriginActor,
 
     return AngleDifference;
 }
+
+bool UMysticaMiscFunctionLibrary::CheckIsValidBlock(AActor *InAttacker,
+                                                    AActor *InDefender) {
+    MYSTICA_LOG_AND_RETURN_VALUE_IF(
+        !InAttacker || !InDefender, LogTemp, Warning, false,
+        TEXT("Invalid Inputs, will not CheckIsValidBlock"));
+
+    const float DotResult =
+        FVector::DotProduct(InAttacker->GetActorForwardVector(),
+                            InDefender->GetActorForwardVector());
+
+    return DotResult < -0.1f;
+}

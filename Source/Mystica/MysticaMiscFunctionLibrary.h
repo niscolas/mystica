@@ -28,4 +28,6 @@ public:
     UFUNCTION(BlueprintPure, Category = "Math|Function Library")
     static float ComputeAngleDifference(AActor *OriginActor,
                                         AActor *TargetActor);
+
+    static bool CheckIsValidBlock(AActor *InAttacker, AActor *InDefender);
 };

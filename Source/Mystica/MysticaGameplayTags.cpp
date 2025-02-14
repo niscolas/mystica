@@ -31,6 +31,8 @@ UE_DEFINE_GAMEPLAY_TAG(Player_Event_Equip_Sword, "Player.Event.Equip.Sword");
 UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_Sword,
                        "Player.Event.Unequip.Sword");
 UE_DEFINE_GAMEPLAY_TAG(Player_Event_HitPause, "Player.Event.HitPause");
+UE_DEFINE_GAMEPLAY_TAG(Player_Event_SuccessfulBlock,
+                       "Player.Event.SuccessfulBlock");
 
 UE_DEFINE_GAMEPLAY_TAG(Player_Effect_HeavyAttackFinisherReady_Sword,
                        "Player.Effect.HeavyAttackFinisherReady.Sword");

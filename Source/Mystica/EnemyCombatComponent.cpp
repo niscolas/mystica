@@ -2,6 +2,8 @@
 #include "Abilities/GameplayAbilityTypes.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Mystica/MysticaGameplayTags.h"
+#include "Mystica/MysticaMiscFunctionLibrary.h"
+#include "MysticaAbilitySystemFunctionLibrary.h"
 
 UEnemyCombatComponent::UEnemyCombatComponent() {
     PrimaryComponentTick.bCanEverTick = false;
@@ -54,11 +56,14 @@ void UEnemyCombatComponent::OnBeginHitOtherPawn(APawn *OtherPawn) {
     }
 
     bool IsValidBlock = false;
-    const bool IsPlayerBlocking = false;
+    const bool IsPlayerBlocking =
+        UMysticaAbilitySystemFunctionLibrary::NativeCheckDoesActorHaveTag(
+            OtherPawn, MysticaGameplayTags::Player_Status_Blocking);
     const bool IsMyAttackUnblockable = false;
 
     if (IsPlayerBlocking && !IsMyAttackUnblockable) {
-        IsValidBlock = true;
+        IsValidBlock = UMysticaMiscFunctionLibrary::CheckIsValidBlock(
+            GetOwner(), OtherPawn);
     }
 
     FGameplayEventData EventData;
@@ -66,6 +71,9 @@ void UEnemyCombatComponent::OnBeginHitOtherPawn(APawn *OtherPawn) {
     EventData.Target = OtherPawn;
 
     if (IsValidBlock) {
+        UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+            OtherPawn, MysticaGameplayTags::Player_Event_SuccessfulBlock,
+            EventData);
     } else {
         UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
             GetOwner(), MysticaGameplayTags::Shared_Event_MeleeHit, EventData);
